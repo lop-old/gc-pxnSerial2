@@ -1,0 +1,65 @@
+<!-- Generated on: June 8, 2017 06:01 UTC -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>pxnSerial-native-linux32</name>
+	<artifactId>pxnserial-linux32</artifactId>
+	<groupId>com.poixson.serial</groupId>
+	<version>1.0.0</version>
+	<packaging>so</packaging>
+	<url>http://poixson.com</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<ftd2xxLinuxVersion>1.4.6</ftd2xxLinuxVersion>
+
+		<native-maven-plugin-version>1.0-alpha-8</native-maven-plugin-version>
+
+	</properties>
+	<profiles>
+		<profile>
+			<id>with-linux32</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<name>linux</name>
+					<arch>i386</arch>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<version>${native-maven-plugin-version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<javahOS>linux</javahOS>
+							<compilerStartOptions>
+								<compilerStartOption>-shared</compilerStartOption>
+								<compilerStartOption>-m32</compilerStartOption>
+								<compilerStartOption>-fPIC</compilerStartOption>
+							</compilerStartOptions>
+							<linkerStartOptions>
+								<linkerStartOption>-shared</linkerStartOption>
+								<linkerStartOption>-m32</linkerStartOption>
+								<linkerStartOption>-L ${project.basedir}/../../java/resources/lib/linux64/</linkerStartOption>
+								<linkerStartOption>-l ftd2xx</linkerStartOption>
+							</linkerStartOptions>
+							<sources>
+								<source>
+									<directory>${project.basedir}/../</directory>
+									<fileNames>
+										<fileName>pxnSerial.c</fileName>
+									</fileNames>
+								</source>
+							</sources>
+						</configuration>
+					</plugin> 
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
