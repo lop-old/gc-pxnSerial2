@@ -1,5 +1,6 @@
 package com.poixson.serial.examples;
 
+import com.poixson.utils.ErrorMode;
 import com.poixson.utils.NativeAutoLoader;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
@@ -100,13 +101,14 @@ public class Main {
 	private static void LoadLibraries() {
 		final NativeAutoLoader loader =
 			NativeAutoLoader.get()
+				.setErrorMode(ErrorMode.EXCEPTION)
 				.setClassRef(Main.class)
 				.addDefaultSearchPaths()
 				.setResourcesPath("lib/linux64/")
 				.setLocalLibPath("lib/")
 				.enableExtract()
 				.enableReplace();
-		// load libftd2xx.so
+		// load libftd2xx.so (prop)
 		{
 			final boolean result =
 				loader.Load("libftd2xx.so");
@@ -115,12 +117,23 @@ public class Main {
 				return;
 			}
 		}
-		// load serialplus.so
+		System.out.println();
+		// load libftdi-linux64.so (open)
+		{
+			final boolean result =
+				loader.Load("libftdi-linux64.so");
+			if (!result) {
+				System.out.println("Failed to load libftdi library!");
+				return;
+			}
+		}
+		System.out.println();
+		// load pxnserial.so
 		{
 			final boolean result =
 				loader.Load("pxnserial-linux64.so");
 			if (!result) {
-				System.out.println("Failed to load serialplus library!");
+				System.out.println("Failed to load pxnSerial library!");
 				return;
 			}
 		}
