@@ -6,14 +6,15 @@
  */
 
 
-#ifndef PXNSERIAL_NATIVE_D2XX_C
-	#define PXNSERIAL_NATIVE_D2XX_C 1
-	#include "NativeD2xx.c"
+
+#ifndef PXNSERIAL_NATIVE_D2XX_PROP_C
+	#define PXNSERIAL_NATIVE_D2XX_PROP_C 1
+	#include "NativeD2xxProp.c"
 #endif
 
 #include <jni.h>
 
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeD2xx_test
+Java_com_poixson_serial_natives_NativeD2xxProp_test
 (JNIEnv *env, jobject obj);

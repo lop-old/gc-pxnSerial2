@@ -6,14 +6,15 @@
  */
 
 
-#include "NativeD2xx.h"
+
+#include "NativeD2xxProp.h"
 
 #include <jni.h>
 #include "ftd2xx.h"
 
 
-JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeD2xx_test
+JNIEXPORT jobjectArray JNICALL
+Java_com_poixson_serial_natives_NativeD2xxProp_natGetDeviceList
 (JNIEnv *env, jobject obj) {
 	printf("\nD2xx Test Works!\n\n");
 	return 1;
