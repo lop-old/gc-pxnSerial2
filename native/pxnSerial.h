@@ -7,8 +7,12 @@
 
 
 
-#define MAX_DEVICES 64
-#define SERIAL_SIZE 16
+#ifndef MAX_DEVICES
+	#define MAX_DEVICES 64
+#endif
+#ifndef SERIAL_SIZE
+	#define SERIAL_SIZE 16
+#endif
 
 
 
