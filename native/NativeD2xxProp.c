@@ -11,6 +11,9 @@
 
 #include <jni.h>
 
+#include <stdio.h>
+#include <string.h>
+
 // official library
 #include "ftdi/prop/ftd2xx.h"
 
@@ -24,8 +27,50 @@
 JNIEXPORT jobjectArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxProp_natGetDeviceList
 (JNIEnv *env, jobject obj) {
-	printf("\nD2xx Test Works!\n\n");
-	return NULL;
+	FT_STATUS status;
+	// get device serial numbers
+	char *list [MAX_DEVICES + 1];
+	char serialBuf [MAX_DEVICES] [SERIAL_SIZE];
+	for (int i=0; i<MAX_DEVICES; i++) {
+		list[i] = serialBuf[i];
+	}
+	list[MAX_DEVICES] = NULL;
+	int count;
+	status = FT_ListDevices(
+		(PVOID) list,
+		(PVOID) &count,
+		FT_LIST_ALL | FT_OPEN_BY_SERIAL_NUMBER
+	);
+	if (!FT_SUCCESS(status)) {
+		fprintf(stderr, "Failed to get devices list: %d\n", status);
+		return NULL;
+	}
+	if (count > MAX_DEVICES) {
+		fprintf(stderr, "Found %d devices, more than max %d devices", count, MAX_DEVICES);
+		count = MAX_DEVICES;
+	}
+	// prepare byte array
+	int total = count;
+	for (int i=0; i<count; i++) {
+		total += strlen(list[i]);
+	}
+	// merge serial numbers to byte array
+	char resultBytes [total];
+	int pos = 0;
+	for (int i=0; i<count; i++) {
+		int len = strlen(list[i]);
+		memcpy(
+			resultBytes + pos,
+			list[i],
+			len
+		);
+		pos += len;
+		resultBytes[pos++] = 0;
+	}
+	// convert to java byte array
+	jbyteArray jbytes = (*env)->NewByteArray(env, total);
+	(*env)->SetByteArrayRegion(env, jbytes, 0, total, (jbyte*) resultBytes);
+	return jbytes;
 }
 
 
