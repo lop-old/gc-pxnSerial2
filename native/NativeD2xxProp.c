@@ -10,8 +10,9 @@
 #include "NativeD2xxProp.h"
 
 #include <jni.h>
-#include "ftd2xx.h"
 
+// official library
+#include "ftdi/prop/ftd2xx.h"
 
 JNIEXPORT jobjectArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxProp_natGetDeviceList

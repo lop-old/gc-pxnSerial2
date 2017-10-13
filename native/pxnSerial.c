@@ -6,8 +6,10 @@
  */
 
 
+
 #include "pxnSerial.h"
 
 // interface types
 #include "NativeSerial.h"
-#include "NativeD2xx.h"
+#include "NativeD2xxOpen.h"
+#include "NativeD2xxProp.h"
