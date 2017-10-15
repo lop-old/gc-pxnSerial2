@@ -12,11 +12,9 @@ fi
 
 
 
-LIBRARIES_PATH="$CWD/libraries"
+LIB_TEMP_PATH="$CWD/lib-temp"
 NATIVE_SOURCE_PATH="$CWD/native"
-JAVA_RESOURCES_PATH="$CWD/java/resources"
-
-LIB_VERSIONS_PATH="$JAVA_RESOURCES_PATH/lib/versions"
+JAVA_RESOURCES_PATH="$CWD/java/resources/lib"
 
 DL_PROP_SCRIPT_PATH="$CWD/scripts/download-ftdi-prop-libraries.php"
 
@@ -29,17 +27,22 @@ DL_PROP_SCRIPT_PATH="$CWD/scripts/download-ftdi-prop-libraries.php"
 function doClean() {
 	title "Cleaning libraries.."
 	# library files
-	if [[ ! -z $LIBRARIES_PATH ]] && [[ -d "$LIBRARIES_PATH/" ]]; then
-		\rm -Rvf --preserve-root "$LIBRARIES_PATH/" || exit 1
+	if [[ ! -z $LIB_TEMP_PATH ]] && [[ -d "$LIB_TEMP_PATH/" ]]; then
+		\rm -Rvf --preserve-root "$LIB_TEMP_PATH/" || exit 1
 	fi
 	# native .h files
 	if [[ ! -z $NATIVE_SOURCE_PATH ]] && [[ -d "$NATIVE_SOURCE_PATH/ftdi/" ]]; then
 		\rm -Rvf --preserve-root "$NATIVE_SOURCE_PATH/ftdi/" || exit 1
 	fi
-	# java resources
-	if [[ ! -z $JAVA_RESOURCES_PATH ]] && [[ -d "$JAVA_RESOURCES_PATH/lib/" ]]; then
-		\rm -Rvf --preserve-root "$JAVA_RESOURCES_PATH/lib/" || exit 1
-	fi
+#	# java resources
+#	if [[ ! -z $JAVA_RESOURCES_PATH ]]; then
+#		if [[ -d "$JAVA_RESOURCES_PATH/ftdi-open/" ]]; then
+#			\rm -Rvf --preserve-root "$JAVA_RESOURCES_PATH/ftdi-open/" || exit 1
+#		fi
+#		if [[ -d "$JAVA_RESOURCES_PATH/ftdi-prop/" ]]; then
+#			\rm -Rvf --preserve-root "$JAVA_RESOURCES_PATH/ftdi-prop/" || exit 1
+#		fi
+#	fi
 	echo
 }
 
@@ -47,15 +50,21 @@ function doClean() {
 
 function doGetOpen() {
 	title "Getting open source libftdi files.."
-	if [[ ! -d "$LIBRARIES_PATH/" ]]; then
-		\mkdir -pv "$LIBRARIES_PATH/" || exit 1
+	# install libusb
+	RPM_LIST_INSTALLED=`\rpm -qa`
+	FOUND_PACKAGE=`echo $RPM_LIST_INSTALLED | grep libusb-devel`
+	if [[ -z $FOUND_PACKAGE ]]; then
+		sudo yum install libusb-devel || exit 1
 	fi
-	pushd "$LIBRARIES_PATH/" || exit 1
+	if [[ ! -d "$LIB_TEMP_PATH/open/" ]]; then
+		\mkdir -pv "$LIB_TEMP_PATH/open/" || exit 1
+	fi
+	pushd "$LIB_TEMP_PATH/open/" || exit 1
 		echo
 		# update sources
-		if [[ -d "$LIBRARIES_PATH/libftdi.git/" ]]; then
+		if [[ -d "$LIB_TEMP_PATH/open/libftdi.git/" ]]; then
 			echo "Updating from remote repo.."
-			pushd "$LIBRARIES_PATH/libftdi.git/" || exit 1
+			pushd "$LIB_TEMP_PATH/open/libftdi.git/" || exit 1
 				\git pull || exit 1
 			popd
 		# get sources
@@ -66,7 +75,7 @@ function doGetOpen() {
 		fi
 		echo
 		# build libftdi
-		pushd "$LIBRARIES_PATH/libftdi.git/" || exit 1
+		pushd "$LIB_TEMP_PATH/open/libftdi.git/" || exit 1
 			echo "Building libftdi.."
 			if [[ -e "build/" ]]; then
 				echo "Removing existing build/ directory.."
@@ -86,19 +95,19 @@ function doGetOpen() {
 	popd
 	title "Copy open source libftdi files.."
 	# copy libs
-	if [[ ! -e "$JAVA_RESOURCES_PATH/lib/linux64/" ]]; then
-		\mkdir -pv "$JAVA_RESOURCES_PATH/lib/linux64/" || exit 1
+	if [[ ! -e "$JAVA_RESOURCES_PATH/linux64/" ]]; then
+		\mkdir -pv "$JAVA_RESOURCES_PATH/linux64/" || exit 1
 	fi
 	\cp -fv \
-		"$LIBRARIES_PATH/libftdi.git/build/out/lib64/libftdi1.so.2.4.0" \
-		"$JAVA_RESOURCES_PATH/lib/linux64/libftdi-linux64.so" \
+		"$LIB_TEMP_PATH/open/libftdi.git/build/out/lib64/libftdi1.so.2.4.0" \
+		"$JAVA_RESOURCES_PATH/linux64/libftdi-open-linux64.so" \
 			|| exit 1
 	# copy .h
 	if [[ ! -e "$NATIVE_SOURCE_PATH/ftdi/open/" ]]; then
 		\mkdir -pv "$NATIVE_SOURCE_PATH/ftdi/open/" || exit 1
 	fi
 	\cp -fv \
-		"$LIBRARIES_PATH/libftdi.git/src/ftdi.h" \
+		"$LIB_TEMP_PATH/open/libftdi.git/src/ftdi.h" \
 		"$NATIVE_SOURCE_PATH/ftdi/open/"         \
 			|| exit 1
 	\pushd "$NATIVE_SOURCE_PATH/ftdi/open/" >/dev/null || exit 1
@@ -112,8 +121,8 @@ function doGetOpen() {
 
 function doGetProp() {
 	title "Getting official ftd2xx files.."
-	if [[ ! -d "$LIBRARIES_PATH/prop/" ]]; then
-		\mkdir -pv "$LIBRARIES_PATH/prop/" || exit 1
+	if [[ ! -d "$LIB_TEMP_PATH/prop/" ]]; then
+		\mkdir -pv "$LIB_TEMP_PATH/prop/" || exit 1
 	fi
 	# download and extract files
 	pushd "$CWD/" || exit 1
@@ -124,28 +133,28 @@ function doGetProp() {
 	# copy libs
 	#         <osName>   <libraries path>                             <libraries file format>   <optional rename format>
 	# linux64
-	CopyPropLibs  "linux64"  "linux64-<version>/release/build"  "libftd2xx.so.<version>"  "libftd2xx.so"
+	CopyPropLibs  "linux64"  "linux64-<version>/release/build"  "libftd2xx.so.<version>"  "libftdi-prop-linux64.so"
 	# linux32
-	CopyPropLibs  "linux32"  "linux32-<version>/release/build"  "libftd2xx.so.<version>"  "libftd2xx.so"
+#	CopyPropLibs  "linux32"  "linux32-<version>/release/build"  "libftd2xx.so.<version>"  "libftdi-prop-linux32.so"
 	# win64
 	CopyPropLibs  "win64"    "win64-<version>/amd64"            "*.dll"
-	# win32
-	\cp -afv \
-		"$LIB_VERSIONS_PATH/prop/win64-version.txt" \
-		"$LIB_VERSIONS_PATH/prop/win32-version.txt" \
-			|| exit 1
-	CopyPropLibs  "win32"    "win64-<version>/i386"             "*.dll"
+#	# win32
+#	\cp -afv \
+#		"$JAVA_RESOURCES_PATH/versions/win64-version.txt" \
+#		"$JAVA_RESOURCES_PATH/versions/win32-version.txt" \
+#			|| exit 1
+#	CopyPropLibs  "win32"    "win64-<version>/i386"             "*.dll"
 	echo
 	# copy .h
 	if [[ ! -e "$NATIVE_SOURCE_PATH/ftdi/prop/" ]]; then
 		\mkdir -pv "$NATIVE_SOURCE_PATH/ftdi/prop/" || exit 1
 	fi
 	\cp -avf \
-		"$LIBRARIES_PATH/prop/linux64-1.4.6/release/ftd2xx.h" \
+		"$LIB_TEMP_PATH/prop/linux64-1.4.6/release/ftd2xx.h" \
 		"$NATIVE_SOURCE_PATH/ftdi/prop/" \
 			|| exit 1
 	\cp -avf \
-		"$LIBRARIES_PATH/prop/linux64-1.4.6/release/WinTypes.h" \
+		"$LIB_TEMP_PATH/prop/linux64-1.4.6/release/WinTypes.h" \
 		"$NATIVE_SOURCE_PATH/ftdi/prop/" \
 			|| exit 1
 	echo
@@ -159,11 +168,7 @@ function doGetProp() {
 function CopyPropLibs() {
 	osName="$1"
 	# read lib version number
-	if [ -z $LIB_VERSIONS_PATH ]; then
-		echo "LIB_VERSIONS_PATH not set!"
-		exit 1
-	fi
-	libVersion=`\cat $LIB_VERSIONS_PATH/prop/${osName}-version.txt`
+	libVersion=`\cat "$JAVA_RESOURCES_PATH/versions/${osName}-version.txt"`
 	if [ -z $libVersion ]; then
 		echo "Failed to get lib version for os: $osName"
 		exit 1
@@ -174,32 +179,32 @@ function CopyPropLibs() {
 	renameFile="$4"
 	echo
 	echo " libs: $filesPath"
-	if [[ ! -d "$JAVA_RESOURCES_PATH/lib/$osName/" ]]; then
-		\mkdir -pv "$JAVA_RESOURCES_PATH/lib/$osName/" || exit 1
+	if [[ ! -d "$JAVA_RESOURCES_PATH/$osName/" ]]; then
+		\mkdir -pv "$JAVA_RESOURCES_PATH/$osName/" || exit 1
 	fi
 	# wild card
 	if echo $filesFormat | \grep -q "*"; then
 		filesPartA=`echo "$filesFormat" | \cut -f1 -d "*"`
 		filesPartB=`echo "$filesFormat" | \cut -f2 -d "*"`
-		\ls -lAsh "$LIBRARIES_PATH/prop/$filesPath/$filesPartA"*"$filesPartB" || exit 1
+		\ls -lAsh "$LIB_TEMP_PATH/prop/$filesPath/$filesPartA"*"$filesPartB" || exit 1
 		\cp -afv \
-			"$LIBRARIES_PATH/prop/$filesPath/$filesPartA"*"$filesPartB"             \
-			"$JAVA_RESOURCES_PATH/lib/$osName/" \
+			"$LIB_TEMP_PATH/prop/$filesPath/$filesPartA"*"$filesPartB"             \
+			"$JAVA_RESOURCES_PATH/$osName/" \
 				|| exit 1
 	# single file
 	else
-		\ls -lAsh "$LIBRARIES_PATH/prop/$filesPath/$filesFormat" || exit 1
+		\ls -lAsh "$LIB_TEMP_PATH/prop/$filesPath/$filesFormat" || exit 1
 		# no rename
 		if [[ -z $renameFile ]]; then
 			\cp -afv \
-				"$LIBRARIES_PATH/prop/$filesPath/$filesFormat" \
-				"$JAVA_RESOURCES_PATH/lib/$osName/"            \
+				"$LIB_TEMP_PATH/prop/$filesPath/$filesFormat" \
+				"$JAVA_RESOURCES_PATH/$osName/"            \
 					|| exit 1
 		# rename file
 		else
 			\cp -afv \
-				"$LIBRARIES_PATH/prop/$filesPath/$filesFormat" \
-				"$JAVA_RESOURCES_PATH/lib/$osName/$renameFile" \
+				"$LIB_TEMP_PATH/prop/$filesPath/$filesFormat" \
+				"$JAVA_RESOURCES_PATH/$osName/$renameFile" \
 					|| exit 1
 		fi
 	fi

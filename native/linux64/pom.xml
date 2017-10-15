@@ -47,9 +47,9 @@
 								<linkerStartOption>-m64</linkerStartOption>
 								<linkerStartOption>-L ${project.basedir}/../../java/resources/lib/linux64/</linkerStartOption>
 								<!-- libftdi-linux64.so -->
-								<linkerStartOption>-l ftdi-linux64</linkerStartOption>
+								<linkerStartOption>-l ftdi-open-linux64</linkerStartOption>
 								<!-- libftd2xx.so -->
-								<linkerStartOption>-l ftd2xx</linkerStartOption>
+								<linkerStartOption>-l ftdi-prop-linux64</linkerStartOption>
 							</linkerStartOptions>
 							<sources>
 								<source>

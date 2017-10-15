@@ -6,8 +6,10 @@
 $page_url   = 'http://www.ftdichip.com/Drivers/D2XX.htm';
 $url_prefix = 'http://www.ftdichip.com/Drivers/';
 
-$tempDir      = "<cwd>/libraries/prop";
-$versionsPath = "<cwd>/java/resources/lib/versions/prop";
+$tempDir      = "<cwd>/lib-temp/prop";
+$versionsPath = "<cwd>/java/resources/lib/versions";
+
+$download32 = FALSE;
 
 
 
@@ -177,10 +179,15 @@ $info['win64'] = [
 $array = \explode('>Linux</td>', $html, 2); $funcCheckExplodeArray($array, __LINE__);
 $html = $array[1]; unset($array);
 // linux 32
+if ($download32) {
 $info['linux32'] = [
 	'url'     => $funcParseURL(    $html),
 	'version' => $funcParseVersion($html)
 ];
+} else {
+	$funcParseURL(    $html);
+	$funcParseVersion($html);
+}
 // linux 64
 $info['linux64'] = [
 	'url'     => $funcParseURL(    $html),
