@@ -14,6 +14,16 @@
 
 #include <jni.h>
 
+#include <termios.h>
+
+
+
+#define NATIVESERIAL_ERROR_UNKNOWN_FAIL          -1
+#define NATIVESERIAL_ERROR_PORT_NOT_FOUND        -2
+#define NATIVESERIAL_ERROR_PORT_BUSY             -3
+#define NATIVESERIAL_ERROR_PERMISSION_DENIED     -4
+#define NATIVESERIAL_ERROR_INCORRECT_SERIAL_PORT -5
+
 
 
 /* load/unload */
@@ -106,3 +116,7 @@ jlong handle, jbyteArray bytes, jint len);
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natWriteBytes
 (JNIEnv *env, jobject obj, jlong handle, jbyteArray bytes);
+
+
+
+speed_t GetBaudByNumber(jint baud);
