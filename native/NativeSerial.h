@@ -120,3 +120,4 @@ Java_com_poixson_serial_natives_NativeSerial_natWriteBytes
 
 
 speed_t GetBaudByNumber(jint baud);
+int GetByteSizeByNumber(jint byteSize);
