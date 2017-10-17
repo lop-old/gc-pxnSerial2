@@ -179,15 +179,10 @@ $info['win64'] = [
 $array = \explode('>Linux</td>', $html, 2); $funcCheckExplodeArray($array, __LINE__);
 $html = $array[1]; unset($array);
 // linux 32
-if ($download32) {
 $info['linux32'] = [
 	'url'     => $funcParseURL(    $html),
 	'version' => $funcParseVersion($html)
 ];
-} else {
-	$funcParseURL(    $html);
-	$funcParseVersion($html);
-}
 // linux 64
 $info['linux64'] = [
 	'url'     => $funcParseURL(    $html),
@@ -235,6 +230,20 @@ $array = \explode('<br>',  $html,     2); $funcCheckExplodeArray($array, __LINE_
 $array = \explode('</td>', $array[1], 2); $funcCheckExplodeArray($array, __LINE__);
 $info['android']['version'] = $funcTrim( $array[0] );
 $html = $array[1]; unset($array);
+
+
+// don't download unused for now
+if (!$download32) {
+	unset($info['win64']);
+	unset($info['linux32']);
+	unset($info['arm5-soft-float']);
+	unset($info['arm5-soft-float-uclibc']);
+	unset($info['arm6-hard-float']);
+	unset($info['arm7-hard-float']);
+	unset($info['arm8-hard-float']);
+	unset($info['mac']);
+	unset($info['android']);
+}
 
 
 // download files

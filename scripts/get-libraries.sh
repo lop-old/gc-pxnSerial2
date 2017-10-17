@@ -136,8 +136,8 @@ function doGetProp() {
 	CopyPropLibs  "linux64"  "linux64-<version>/release/build"  "libftd2xx.so.<version>"  "libftdi-prop-linux64.so"
 	# linux32
 #	CopyPropLibs  "linux32"  "linux32-<version>/release/build"  "libftd2xx.so.<version>"  "libftdi-prop-linux32.so"
-	# win64
-	CopyPropLibs  "win64"    "win64-<version>/amd64"            "*.dll"
+#	# win64
+#	CopyPropLibs  "win64"    "win64-<version>/amd64"            "*.dll"
 #	# win32
 #	\cp -afv \
 #		"$JAVA_RESOURCES_PATH/versions/win64-version.txt" \
