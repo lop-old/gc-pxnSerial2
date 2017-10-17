@@ -260,7 +260,20 @@ return 0;
 JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natGetLineStatus
 (JNIEnv *env, jobject obj, jlong handle) {
-return NULL;
+	int status;
+	ioctl(handle, TIOCMGET, &status);
+	jboolean[] results = new jboolean[4];
+	// CTS
+	results[0] = (status & TIOCM_CTS ? JNI_TRUE : JNI_FALSE);
+	// DSR
+	results[1] = (status & TIOCM_DSR ? JNI_TRUE : JNI_FALSE);
+	// Ring
+	results[2] = (status & TIOCM_RNG ? JNI_TRUE : JNI_FALSE);
+	// RLSD(DCD)
+	results[3] = (status & TIOCM_CAR ? JNI_TRUE : JNI_FALSE);
+	jbooleanArray resultArray = (*env)->NewBooleanArray(env, 4);
+	(*env)->SetBooleanArrayRegion(resultArray, 0, 4, results);
+	return resultArray;
 }
 
 
@@ -270,7 +283,46 @@ JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natSetLineStatus
 (JNIEnv *env, jobject obj,
 jlong handle, jboolean setRTS, jboolean setDTR) {
-return 0;
+	if (handle <= 0) {
+		return handle;
+	}
+	// get current options
+	struct termios tty;
+	if (tcgetattr(handle, &tty) != 0) {
+		fprintf(stderr, "Failed to get port attributes\n");
+		close(handle);
+		handle = NATIVESERIAL_ERROR_INCORRECT_SERIAL_PORT; // -5
+		return handle;
+	}
+
+	int lineStatus;
+	if (ioctl(handle, TIOCMGET, &lineStatus) >= 0) {
+		// RTS (request to send)
+		if (setRTS == JNI_TRUE) {
+			lineStatus |= TIOCM_RTS;
+		} else {
+			lineStatus &= ~TIOCM_RTS;
+		}
+		// DTR (data terminal ready)
+		if (setDTR == JNI_TRUE) {
+			lineStatus |= TIOCM_DTR;
+		} else {
+			lineStatus &= ~TIOCM_DTR;
+		}
+		if (ioctl(handle, TIOCMSET, &lineStatus) >= 0) {
+			return JNI_TRUE;
+		}
+	}
+
+	// set the settings
+	if (tcsetattr(handle, TCSAFLUSH, &tty) != 0) {
+		fprintf(stderr, "Failed to set port attributes\n");
+		close(handle);
+		handle = NATIVESERIAL_ERROR_INCORRECT_SERIAL_PORT; // -5
+		return handle;
+	}
+	tcflush(handle, TCIOFLUSH);
+	return JNI_FALSE;
 }
 */
 
@@ -285,7 +337,12 @@ return 0;
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natGetInputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
-return 0;
+	if (handle <= 0) {
+		return handle;
+	}
+	jint result = -1;
+	ioctl(handle, FIONREAD, &result);
+	return result;
 }
 
 
@@ -294,7 +351,12 @@ return 0;
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natGetOutputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
-return 0;
+	if (handle <= 0) {
+		return handle;
+	}
+	jint result = -1;
+	ioctl(handle, TIOCOUTQ, &result);
+	return result;
 }
 */
 
@@ -309,7 +371,23 @@ JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natReadBytes
 (JNIEnv *env, jobject obj,
 jlong handle, jbyteArray bytes, jint len) {
-return 0;
+	jbyte *buf = (jbyte*) malloc(len);
+	jint result = (jint) read(
+		handle,
+		buf,
+		len
+	);
+	if (result > 0) {
+		(*env)->SetByteArrayRegion(
+			env,
+			bytes,
+			0,
+			result,
+			buf
+		);
+	}
+	free(buf);
+	return result;
 }
 
 
@@ -318,7 +396,27 @@ return 0;
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeSerial_natWriteBytes
 (JNIEnv *env, jobject obj, jlong handle, jbyteArray bytes) {
-return 0;
+	jbyte* buffer = (*env)->GetByteArrayElements(env, bytes, JNI_FALSE);
+	jint size = (*env)->GetArrayLength(env, bytes);
+//TODO: remove this
+fprintf(stderr, "WRITING: %s\n", buffer);
+	jint result =
+		write(
+			handle,
+			buffer,
+			(size_t)size
+		);
+	(*env)->ReleaseByteArrayElements(
+		env,
+		bytes,
+		buffer,
+		0
+	);
+	return (
+		result == size
+		? JNI_TRUE
+		: JNI_FALSE
+	);
 }
 
 
