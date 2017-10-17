@@ -19,20 +19,22 @@ public class NativeSerial implements DeviceNative {
 
 	@Override
 	public native long natSetParams(long handle, int baud, int byteSize, int stopBits, int parity, int flags);
-	@Override
-	public native long natSetBlocking(long handle, boolean blocking);
-	@Override
-	public native long natSetVMinVTime(long handle, int vMin, int vTime);
+//	@Override
+//	public native long natSetBlocking(long handle, boolean blocking);
+//	@Override
+//	public native long natSetVMinVTime(long handle, int vMin, int vTime);
 
 
-	@Override
-	public native long natSetLineStatus(long handle, boolean setRTS, boolean setDTR);
+//	@Override
+//	public native long natGetLineStatus(long handle);
+//	@Override
+//	public native long natSetLineStatus(long handle, boolean setRTS, boolean setDTR);
 
 
-	@Override
-	public native int natGetInputBytesCount(long handle);
-	@Override
-	public native int natGetOutputBytesCount(long handle);
+//	@Override
+//	public native int natGetInputBytesCount(long handle);
+//	@Override
+//	public native int natGetOutputBytesCount(long handle);
 
 
 	@Override

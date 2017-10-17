@@ -111,6 +111,7 @@ return 0;
 
 
 
+/*
 // natSetBlocking(handle, blocking) - blocking/non-blocking
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxProp_natSetBlocking
@@ -126,10 +127,21 @@ Java_com_poixson_serial_natives_NativeD2xxProp_natSetVMinVTime
 (JNIEnv *env, jobject obj, jlong handle, jint vMin, jint vTime) {
 return 0;
 }
+*/
 
 
 
 /* line status */
+
+
+
+/*
+// natGetLineStatus(handle)
+JNIEXPORT jbooleanArray JNICALL
+Java_com_poixson_serial_natives_NativeD2xxProp_natGetLineStatus
+(JNIEnv *env, jobject obj, jlong handle) {
+return NULL;
+}
 
 
 
@@ -140,6 +152,7 @@ Java_com_poixson_serial_natives_NativeD2xxProp_natSetLineStatus
 jlong handle, jboolean setRTS, jboolean setDTR) {
 return 0;
 }
+*/
 
 
 
@@ -147,6 +160,7 @@ return 0;
 
 
 
+/*
 // natGetInputBytesCount(handle)
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeD2xxProp_natGetInputBytesCount
@@ -162,6 +176,7 @@ Java_com_poixson_serial_natives_NativeD2xxProp_natGetOutputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
 return 0;
 }
+*/
 
 
 
