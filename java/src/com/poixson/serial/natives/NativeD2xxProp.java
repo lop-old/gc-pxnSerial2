@@ -8,6 +8,12 @@ public class NativeD2xxProp implements NativeD2xx {
 
 
 	@Override
+	public native int natInit();
+	@Override
+	public native int natUnload();
+
+
+	@Override
 	public native byte[] natGetDeviceList();
 
 

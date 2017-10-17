@@ -16,6 +16,18 @@
 
 
 
+/* load/unload */
+
+JNIEXPORT jint JNICALL
+Java_com_poixson_serialplus_natives_NativeD2xxOpen_natInit
+(JNIEnv *env, jobject obj);
+
+JNIEXPORT jint JNICALL
+Java_com_poixson_serialplus_natives_NativeD2xxOpen_natUnload
+(JNIEnv *env, jobject obj);
+
+
+
 /* list devices */
 
 JNIEXPORT jobjectArray JNICALL

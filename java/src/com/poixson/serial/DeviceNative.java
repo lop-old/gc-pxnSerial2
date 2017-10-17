@@ -5,6 +5,9 @@ public interface DeviceNative {
 
 
 
+	public int natInit();
+	public int natUnload();
+
 	public byte[] natGetDeviceList();
 
 	public long natOpenPort(String portName);
