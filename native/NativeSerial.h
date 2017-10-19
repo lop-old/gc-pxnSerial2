@@ -29,11 +29,11 @@
 /* load/unload */
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_natInit
+Java_com_poixson_serialplus_natives_NativeSerial_init
 (JNIEnv *env, jobject obj);
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_natUnload
+Java_com_poixson_serialplus_natives_NativeSerial_unload
 (JNIEnv *env, jobject obj);
 
 
@@ -41,7 +41,7 @@ Java_com_poixson_serialplus_natives_NativeSerial_natUnload
 /* list devices */
 
 JNIEXPORT jobjectArray JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetDeviceList
+Java_com_poixson_serial_natives_NativeSerial_getDeviceList
 (JNIEnv *env, jobject obj);
 
 
@@ -49,11 +49,11 @@ Java_com_poixson_serial_natives_NativeSerial_natGetDeviceList
 /* open/close port */
 
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natOpenPort
+Java_com_poixson_serial_natives_NativeSerial_openPort
 (JNIEnv *env, jobject obj, jstring portName);
 
 JNIEXPORT jboolean JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natClosePort
+Java_com_poixson_serial_natives_NativeSerial_closePort
 (JNIEnv *env, jobject obj, jlong handle);
 
 
@@ -61,17 +61,17 @@ Java_com_poixson_serial_natives_NativeSerial_natClosePort
 /* port parameters */
 
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetParams
+Java_com_poixson_serial_natives_NativeSerial_setParams
 (JNIEnv *env, jobject obj, jlong handle, jint baud,
 jint byteSize, jint stopBits, jint parity, jint flags);
 
 /*
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetBlocking
+Java_com_poixson_serial_natives_NativeSerial_setBlocking
 (JNIEnv *env, jobject obj, jlong handle, jboolean blocking);
 
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetVMinVTime
+Java_com_poixson_serial_natives_NativeSerial_setVMinVTime
 (JNIEnv *env, jobject obj, jlong handle, jint vMin, jint vTime);
 */
 
@@ -81,11 +81,11 @@ Java_com_poixson_serial_natives_NativeSerial_natSetVMinVTime
 
 /*
 JNIEXPORT jbooleanArray JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetLineStatus
+Java_com_poixson_serial_natives_NativeSerial_getLineStatus
 (JNIEnv *env, jobject obj, jlong handle);
 
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetLineStatus
+Java_com_poixson_serial_natives_NativeSerial_setLineStatus
 (JNIEnv *env, jobject obj,
 jlong handle, jboolean setRTS, jboolean setDTR);
 */
@@ -96,11 +96,11 @@ jlong handle, jboolean setRTS, jboolean setDTR);
 
 /*
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetInputBytesCount
+Java_com_poixson_serial_natives_NativeSerial_getInputBytesCount
 (JNIEnv *env, jobject obj, jlong handle);
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetOutputBytesCount
+Java_com_poixson_serial_natives_NativeSerial_getOutputBytesCount
 (JNIEnv *env, jobject obj, jlong handle);
 */
 
@@ -109,15 +109,15 @@ Java_com_poixson_serial_natives_NativeSerial_natGetOutputBytesCount
 /* read/write */
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natReadBytes
+Java_com_poixson_serial_natives_NativeSerial_readBytes
 (JNIEnv *env, jobject obj,
 jlong handle, jbyteArray bytes, jint len);
 
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natWriteBytes
+Java_com_poixson_serial_natives_NativeSerial_writeBytes
 (JNIEnv *env, jobject obj, jlong handle, jbyteArray bytes);
 
 
 
-speed_t GetBaudByNumber(jint baud);
-int GetByteSizeByNumber(jint byteSize);
+speed_t getBaudByNumber(jint baud);
+int getByteSizeByNumber(jint byteSize);

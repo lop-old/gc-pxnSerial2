@@ -24,18 +24,18 @@
 
 
 
-// natInit()
+// init()
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_natInit
+Java_com_poixson_serialplus_natives_NativeSerial_init
 (JNIEnv *env, jobject obj) {
 	return 0;
 }
 
 
 
-// natUnload()
+// unload()
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_natUnload
+Java_com_poixson_serialplus_natives_NativeSerial_unload
 (JNIEnv *env, jobject obj) {
 	return 0;
 }
@@ -46,9 +46,9 @@ Java_com_poixson_serialplus_natives_NativeSerial_natUnload
 
 
 
-// natGetDeviceList()
+// getDeviceList()
 JNIEXPORT jobjectArray JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetDeviceList
+Java_com_poixson_serial_natives_NativeSerial_getDeviceList
 (JNIEnv *env, jobject obj) {
 	return NULL;
 }
@@ -59,9 +59,9 @@ Java_com_poixson_serial_natives_NativeSerial_natGetDeviceList
 
 
 
-// natOpenPort(port-name)
+// openPort(port-name)
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natOpenPort
+Java_com_poixson_serial_natives_NativeSerial_openPort
 (JNIEnv *env, jobject obj, jstring portName) {
 	const char *port = (*env)->GetStringUTFChars(env, portName, 0);
 	fprintf(stderr, "Opening serial port: %s\n", port);
@@ -99,9 +99,9 @@ Java_com_poixson_serial_natives_NativeSerial_natOpenPort
 
 
 
-// natClosePort(handle)
+// closePort(handle)
 JNIEXPORT jboolean JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natClosePort
+Java_com_poixson_serial_natives_NativeSerial_closePort
 (JNIEnv *env, jobject obj, jlong handle) {
 	if (handle <= 0) {
 		return JNI_FALSE;
@@ -121,9 +121,9 @@ Java_com_poixson_serial_natives_NativeSerial_natClosePort
 
 
 
-// natSetParams(handle, baud, byte-size, stop-bits, parity, flags)
+// setParams(handle, baud, byte-size, stop-bits, parity, flags)
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetParams
+Java_com_poixson_serial_natives_NativeSerial_setParams
 (JNIEnv *env, jobject obj, jlong handle, jint baud,
 jint byteSize, jint stopBits, jint parity, jint flags) {
 	if (handle <= 0) {
@@ -153,7 +153,7 @@ jint byteSize, jint stopBits, jint parity, jint flags) {
 	}
 
 	// set baud rate
-	speed_t baudValue = GetBaudByNumber(baud);
+	speed_t baudValue = getBaudByNumber(baud);
 	if (baudValue > 0) {
 		if (cfsetispeed(&tty, baudValue) < 0 || cfsetospeed(&tty, baudValue) < 0) {
 			fprintf(stderr, "Failed to set baud rate\n");
@@ -164,7 +164,7 @@ jint byteSize, jint stopBits, jint parity, jint flags) {
 	}
 
 	// set data bits
-	int byteSizeValue = GetByteSizeByNumber(byteSize);
+	int byteSizeValue = getByteSizeByNumber(byteSize);
 	if (byteSizeValue != -1) {
 		tty.c_cflag &= ~CSIZE;
 		tty.c_cflag |= byteSize;
@@ -232,9 +232,9 @@ jint byteSize, jint stopBits, jint parity, jint flags) {
 
 
 /*
-// natSetBlocking(handle, blocking) - blocking/non-blocking
+// setBlocking(handle, blocking) - blocking/non-blocking
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetBlocking
+Java_com_poixson_serial_natives_NativeSerial_setBlocking
 (JNIEnv *env, jobject obj, jlong handle, jboolean blocking) {
 	if (handle <= 0) {
 		return handle;
@@ -265,9 +265,9 @@ Java_com_poixson_serial_natives_NativeSerial_natSetBlocking
 
 
 
-// natSetVMinVTime(handle, vMin, vTime)
+// setVMinVTime(handle, vMin, vTime)
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetVMinVTime
+Java_com_poixson_serial_natives_NativeSerial_setVMinVTime
 (JNIEnv *env, jobject obj, jlong handle, jint vMin, jint vTime) {
 	if (handle <= 0) {
 		return handle;
@@ -309,9 +309,9 @@ Java_com_poixson_serial_natives_NativeSerial_natSetVMinVTime
 
 
 /*
-// natGetLineStatus(handle)
+// getLineStatus(handle)
 JNIEXPORT jbooleanArray JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetLineStatus
+Java_com_poixson_serial_natives_NativeSerial_getLineStatus
 (JNIEnv *env, jobject obj, jlong handle) {
 	if (handle <= 0) {
 		return handle;
@@ -334,9 +334,9 @@ Java_com_poixson_serial_natives_NativeSerial_natGetLineStatus
 
 
 
-// natSetLineStatus(handle, rts, dtr)
+// setLineStatus(handle, rts, dtr)
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natSetLineStatus
+Java_com_poixson_serial_natives_NativeSerial_setLineStatus
 (JNIEnv *env, jobject obj,
 jlong handle, jboolean setRTS, jboolean setDTR) {
 	if (handle <= 0) {
@@ -389,9 +389,9 @@ jlong handle, jboolean setRTS, jboolean setDTR) {
 
 
 /*
-// natGetInputBytesCount(handle)
+// getInputBytesCount(handle)
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetInputBytesCount
+Java_com_poixson_serial_natives_NativeSerial_getInputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
 	if (handle <= 0) {
 		return handle;
@@ -403,9 +403,9 @@ Java_com_poixson_serial_natives_NativeSerial_natGetInputBytesCount
 
 
 
-// natGetOutputBytesCount(handle)
+// getOutputBytesCount(handle)
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natGetOutputBytesCount
+Java_com_poixson_serial_natives_NativeSerial_getOutputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
 	if (handle <= 0) {
 		return handle;
@@ -422,9 +422,9 @@ Java_com_poixson_serial_natives_NativeSerial_natGetOutputBytesCount
 
 
 
-// natReadBytes(handle, bytes, length)
+// readBytes(handle, bytes, length)
 JNIEXPORT jint JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natReadBytes
+Java_com_poixson_serial_natives_NativeSerial_readBytes
 (JNIEnv *env, jobject obj,
 jlong handle, jbyteArray bytes, jint len) {
 	if (handle <= 0) {
@@ -451,9 +451,9 @@ jlong handle, jbyteArray bytes, jint len) {
 
 
 
-// natWriteBytes(handle, bytes)
+// writeBytes(handle, bytes)
 JNIEXPORT jlong JNICALL
-Java_com_poixson_serial_natives_NativeSerial_natWriteBytes
+Java_com_poixson_serial_natives_NativeSerial_writeBytes
 (JNIEnv *env, jobject obj, jlong handle, jbyteArray bytes) {
 	jbyte* buffer = (*env)->GetByteArrayElements(env, bytes, JNI_FALSE);
 	jint size = (*env)->GetArrayLength(env, bytes);
@@ -480,7 +480,7 @@ fprintf(stderr, "WRITING: %s\n", buffer);
 
 
 
-speed_t GetBaudByNumber(jint baud) {
+speed_t getBaudByNumber(jint baud) {
 	if (baud <= 0)     return B0;
 	if (baud <= 50)    return B50;
 	if (baud <= 75)    return B75;
@@ -547,7 +547,7 @@ speed_t GetBaudByNumber(jint baud) {
 
 
 
-int GetByteSizeByNumber(jint byteSize) {
+int getByteSizeByNumber(jint byteSize) {
 	if (byteSize == 5) return CS5;
 	if (byteSize == 6) return CS6;
 	if (byteSize == 7) return CS7;

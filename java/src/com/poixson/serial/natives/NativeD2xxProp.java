@@ -6,45 +6,45 @@ public class NativeD2xxProp implements NativeD2xx {
 
 
 	@Override
-	public native int natInit();
+	public native int init();
 	@Override
-	public native int natUnload();
-
-
-	@Override
-	public native byte[] natGetDeviceList();
+	public native int unload();
 
 
 	@Override
-	public native long natOpenPort(String portName);
-	@Override
-	public native boolean natClosePort(long handle);
+	public native byte[] getDeviceList();
 
 
 	@Override
-	public native long natSetParams(long handle, int baud, int byteSize, int stopBits, int parity, int flags);
+	public native long openPort(String portName);
+	@Override
+	public native boolean closePort(long handle);
+
+
+	@Override
+	public native long setParams(long handle, int baud, int byteSize, int stopBits, int parity, int flags);
 //	@Override
-//	public native long natSetBlocking(long handle, boolean blocking);
+//	public native long setBlocking(long handle, boolean blocking);
 //	@Override
-//	public native long natSetVMinVTime(long handle, int vMin, int vTime);
-
-
-//	@Override
-//	public native long natGetLineStatus(long handle);
-//	@Override
-//	public native long natSetLineStatus(long handle, boolean setRTS, boolean setDTR);
+//	public native long setVMinVTime(long handle, int vMin, int vTime);
 
 
 //	@Override
-//	public native int natGetInputBytesCount(long handle);
+//	public native long getLineStatus(long handle);
 //	@Override
-//	public native int natGetOutputBytesCount(long handle);
+//	public native long setLineStatus(long handle, boolean setRTS, boolean setDTR);
+
+
+//	@Override
+//	public native int getInputBytesCount(long handle);
+//	@Override
+//	public native int getOutputBytesCount(long handle);
 
 
 	@Override
-	public native int natReadBytes(long handle, byte[] bytes, int len);
+	public native int readBytes(long handle, byte[] bytes, int len);
 	@Override
-	public native long natWriteBytes(long handle, byte[] bytes);
+	public native long writeBytes(long handle, byte[] bytes);
 
 
 

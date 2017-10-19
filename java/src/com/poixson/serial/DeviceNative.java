@@ -5,26 +5,26 @@ public interface DeviceNative {
 
 
 
-	public int natInit();
-	public int natUnload();
+	public int init();
+	public int unload();
 
-	public byte[] natGetDeviceList();
+	public byte[] getDeviceList();
 
-	public long natOpenPort(String portName);
-	public boolean natClosePort(long handle);
+	public long openPort(String portName);
+	public boolean closePort(long handle);
 
-	public long natSetParams(long handle, int baud, int byteSize, int stopBits, int parity, int flags);
-//	public long natSetBlocking(long handle, boolean blocking);
-//	public long natSetVMinVTime(long handle, int vMin, int vTime);
+	public long setParams(long handle, int baud, int byteSize, int stopBits, int parity, int flags);
+//	public long setBlocking(long handle, boolean blocking);
+//	public long setVMinVTime(long handle, int vMin, int vTime);
 
-//	public boolean[] natGetLineStatus(long handle);
-//	public long natSetLineStatus(long handle, boolean setRTS, boolean setDTR);
+//	public boolean[] getLineStatus(long handle);
+//	public long setLineStatus(long handle, boolean setRTS, boolean setDTR);
 
-//	public int natGetInputBytesCount(long handle);
-//	public int natGetOutputBytesCount(long handle);
+//	public int getInputBytesCount(long handle);
+//	public int getOutputBytesCount(long handle);
 
-	public int natReadBytes(long handle, byte[] bytes, int len);
-	public long natWriteBytes(long handle, byte[] bytes);
+	public int readBytes(long handle, byte[] bytes, int len);
+	public long writeBytes(long handle, byte[] bytes);
 
 
 
