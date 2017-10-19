@@ -5,36 +5,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.poixson.serial.ConfigDAO;
-import com.poixson.serial.DeviceDriver;
-import com.poixson.serial.drivers.DriverD2xx;
-import com.poixson.serial.drivers.DriverSerial;
+import com.poixson.serial.DeviceNative;
+import com.poixson.serial.natives.NativeD2xxOpen;
+import com.poixson.serial.natives.NativeD2xxProp;
+import com.poixson.serial.natives.NativeSerial;
 import com.poixson.utils.Utils;
 
 
-public enum DriverMode {
+public enum DriverType {
 
-	AUTO   (0),
-	SERIAL (1),
-	D2XX   (2);
-
-
-
-	public static final DriverMode DEFAULT_DRIVER_MODE = AUTO;
+	SERIAL    (0x0),
+	D2XX_OPEN (0x1),
+	D2XX_PROP (0x2),
+	D2XX      (0x3),
+	AUTO      (0x7);
 
 
 
-	private static final List<DriverMode> modes = new ArrayList<DriverMode>();
+	public static final DriverType DEFAULT_DRIVER_MODE = AUTO;
+
+
+
+	private static final List<DriverType> driverTypes = new ArrayList<DriverType>();
 	static {
-		modes.add(AUTO);
-		modes.add(SERIAL);
-		modes.add(D2XX);
+		driverTypes.add(AUTO);
+		driverTypes.add(SERIAL);
+		driverTypes.add(D2XX);
+		driverTypes.add(D2XX_OPEN);
+		driverTypes.add(D2XX_PROP);
 	}
 
 
 
 	public final int value;
 
-	private DriverMode(final int value) {
+	private DriverType(final int value) {
 		this.value = value;
 	}
 
@@ -44,27 +49,36 @@ public enum DriverMode {
 
 
 
-	public DeviceDriver getDriver(final ConfigDAO cfg)
-			throws IOException {
+	public DeviceNative getNative(final ConfigDAO cfg) throws IOException {
 		switch (this) {
+		case SERIAL:
+			return NativeSerial.get();
+		case D2XX_OPEN:
+			return NativeD2xxOpen.get();
+		case D2XX_PROP:
+			return NativeD2xxProp.get();
+		case D2XX:
+//TODO:
+			break;
 		case AUTO:
 //TODO:
-return null;
-		case SERIAL:
-			return new DriverSerial(cfg);
-		case D2XX:
-			return new DriverD2xx(cfg);
+			break;
 		default:
+//TODO:
+			break;
 		}
 		return null;
 	}
 
 
 
-	public static DriverMode FromString(final String str) {
+	public static DriverType FromString(final String str) {
 		if (Utils.isEmpty(str))
 			return null;
-		switch (str.toLowerCase()) {
+		String match = str.toLowerCase();
+//		StringUtils.
+//		match = str.replace("");
+		switch (match) {
 		case "auto":
 			return AUTO;
 		case "serial":
