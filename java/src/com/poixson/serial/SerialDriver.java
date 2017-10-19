@@ -1,7 +1,7 @@
 package com.poixson.serial;
 
 
-public abstract class DeviceDriver {
+public class SerialDriver {
 
 
 }
