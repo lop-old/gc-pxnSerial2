@@ -72,6 +72,15 @@ public enum DriverType {
 
 
 
+	public static DriverType FromNative(final DeviceNative nat) {
+		if (nat instanceof NativeSerial)
+			return DriverType.SERIAL;
+		if (nat instanceof NativeD2xxOpen)
+			return DriverType.D2XX_OPEN;
+		if (nat instanceof NativeD2xxProp)
+			return DriverType.D2XX_PROP;
+		return null;
+	}
 	public static DriverType FromString(final String str) {
 		if (Utils.isEmpty(str))
 			return null;
