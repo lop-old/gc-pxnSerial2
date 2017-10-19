@@ -132,6 +132,10 @@ public enum Baud {
 	public int getValue() {
 		return this.value;
 	}
+	@Override
+	public String toString() {
+		return Integer.toString(this.value);
+	}
 
 
 
