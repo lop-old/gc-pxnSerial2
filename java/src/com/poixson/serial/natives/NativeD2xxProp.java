@@ -1,7 +1,5 @@
 package com.poixson.serial.natives;
 
-import com.poixson.serial.NativeD2xx;
-
 
 public class NativeD2xxProp implements NativeD2xx {
 
