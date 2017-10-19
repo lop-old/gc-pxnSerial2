@@ -1,7 +1,7 @@
 package com.poixson.serial;
 
 
-public class DeviceConfig {
+public class ConfigDAO {
 
 
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.poixson.serial.DeviceConfig;
+import com.poixson.serial.ConfigDAO;
 import com.poixson.serial.DeviceDriver;
 import com.poixson.serial.drivers.DriverD2xx;
 import com.poixson.serial.drivers.DriverSerial;
@@ -44,7 +44,7 @@ public enum DriverMode {
 
 
 
-	public DeviceDriver getDriver(final DeviceConfig cfg)
+	public DeviceDriver getDriver(final ConfigDAO cfg)
 			throws IOException {
 		switch (this) {
 		case AUTO:
