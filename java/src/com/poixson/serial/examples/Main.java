@@ -18,8 +18,6 @@ public class Main {
 			System.exit(1);
 		}
 		System.out.println();
-		LoadLibraries();
-		System.out.println();
 
 		for (int index=0; index<args.length; index++) {
 			final String str =
@@ -94,49 +92,6 @@ public class Main {
 		}
 
 		System.exit(0);
-	}
-
-
-
-	private static void LoadLibraries() {
-		final NativeAutoLoader loader =
-			NativeAutoLoader.get()
-				.setErrorMode(ErrorMode.EXCEPTION)
-				.setClassRef(Main.class)
-				.addDefaultSearchPaths()
-				.setResourcesPath("lib/linux64/")
-				.setLocalLibPath("lib/")
-				.enableExtract()
-				.enableReplace();
-		// load libftd2xx.so (prop)
-		{
-			final boolean result =
-				loader.Load("libftd2xx.so");
-			if (!result) {
-				System.out.println("Failed to load ftd2xx library!");
-				return;
-			}
-		}
-		System.out.println();
-		// load libftdi-linux64.so (open)
-		{
-			final boolean result =
-				loader.Load("libftdi-linux64.so");
-			if (!result) {
-				System.out.println("Failed to load libftdi library!");
-				return;
-			}
-		}
-		System.out.println();
-		// load pxnserial.so
-		{
-			final boolean result =
-				loader.Load("pxnserial-linux64.so");
-			if (!result) {
-				System.out.println("Failed to load pxnSerial library!");
-				return;
-			}
-		}
 	}
 
 
