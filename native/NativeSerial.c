@@ -26,7 +26,7 @@
 
 // init()
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_init
+Java_com_poixson_serial_natives_NativeSerial_init
 (JNIEnv *env, jobject obj) {
 	return 0;
 }
@@ -35,7 +35,7 @@ Java_com_poixson_serialplus_natives_NativeSerial_init
 
 // unload()
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_unload
+Java_com_poixson_serial_natives_NativeSerial_unload
 (JNIEnv *env, jobject obj) {
 	return 0;
 }

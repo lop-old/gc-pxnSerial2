@@ -29,11 +29,11 @@
 /* load/unload */
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_init
+Java_com_poixson_serial_natives_NativeSerial_init
 (JNIEnv *env, jobject obj);
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeSerial_unload
+Java_com_poixson_serial_natives_NativeSerial_unload
 (JNIEnv *env, jobject obj);
 
 

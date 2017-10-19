@@ -19,11 +19,11 @@
 /* load/unload */
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeD2xxOpen_init
+Java_com_poixson_serial_natives_NativeD2xxOpen_init
 (JNIEnv *env, jobject obj);
 
 JNIEXPORT jint JNICALL
-Java_com_poixson_serialplus_natives_NativeD2xxOpen_unload
+Java_com_poixson_serial_natives_NativeD2xxOpen_unload
 (JNIEnv *env, jobject obj);
 
 
