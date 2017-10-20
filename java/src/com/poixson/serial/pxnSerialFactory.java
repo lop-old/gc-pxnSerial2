@@ -55,6 +55,7 @@ public class pxnSerialFactory {
 
 
 	public pxnSerialFactory() {
+		LoadLibraries();
 	}
 	public pxnSerialFactory(final String portName) {
 		this();
@@ -75,6 +76,12 @@ public class pxnSerialFactory {
 		this.setPortName(portName);
 		this.setBaud(baud);
 		this.setDriverType(driverType);
+	}
+
+
+
+	public static void LoadLibraries() {
+		pxnSerial.LoadLibraries();
 	}
 
 
