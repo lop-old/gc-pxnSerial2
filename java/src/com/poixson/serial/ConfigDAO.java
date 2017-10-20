@@ -31,6 +31,12 @@ public class ConfigDAO {
 			null // baud
 		);
 	}
+	public ConfigDAO(final String portName, final int baudValue) {
+		this(
+			portName,
+			Baud.FromInt(baudValue)
+		);
+	}
 	public ConfigDAO(final String portName, final Baud baud) {
 		this(
 			portName,
@@ -91,6 +97,9 @@ public class ConfigDAO {
 
 	public Baud getBaud() {
 		return this.baud;
+	}
+	public String getBaudStr() {
+		return this.baud.toString();
 	}
 	public int getBaudValue() {
 		return this.baud.getValue();
