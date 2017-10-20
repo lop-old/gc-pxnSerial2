@@ -148,18 +148,115 @@ public class pxnSerial implements xCloseable {
 				}
 				return false;
 			}
-			// set params
+			// configure the port
+			{
+				final long result =
+					this.nat.setParams(
+						handle,
+						this.cfg.getBaudValue(),
+						this.cfg.getByteSizeValue(),
+						this.cfg.getStopBitsValue(),
+						this.cfg.getParityValue(),
+						this.cfg.getFlags()
+					);
+				// failed to set params
+				if (result <= 0L) {
+					this.handle.set(result);
+					if (ErrorMode.EXCEPTION.equals(errorMode)) {
+						throw new IORuntimeException(
+							(new StringBuilder())
+								.append("Failed to configure serial port: ")
+								.append(result)
+								.append(" ")
+								.append(this.getPortName())
+								.toString()
+						);
+					} else
+					if (ErrorMode.LOG.equals(errorMode)) {
+						this.log().severe(
+							"Failed to configure serial port: {} {}",
+							result,
+							this.getPortName()
+						);
+					}
+					return false;
+				}
+			}
+			// set line status
+			{
+				final long result =
+					this.nat.setLineStatus(
+						handle,
+						this.cfg.getRTS(),
+						this.cfg.getDTR()
+					);
+				// failed to set line status
+				if (result <= 0L) {
+					this.handle.set(result);
+					if (ErrorMode.EXCEPTION.equals(errorMode)) {
+						throw new IORuntimeException(
+							(new StringBuilder())
+								.append("Failed to set serial line status: ")
+								.append(result)
+								.append(" ")
+								.append(this.getPortName())
+								.toString()
+						);
+					} else
+					if (ErrorMode.LOG.equals(errorMode)) {
+						this.log().severe(
+							"Failed to set serial line status: {} {}",
+							result,
+							this.getPortName()
+						);
+					}
+					return false;
+				}
+			}
 //TODO:
-			
-			
-			
-			
-			
+//			// configure blocking mode
+//			{
+//				final long result =
+//					nat.natSetBlocking(h, true);
+//				// failed to set blocking mode
+//				if (result <= 0L) {
+//					this.handle.set(result);
+//					if (ErrorMode.EXCEPTION.equals(errorMode)) {
+//						throw new IOException("Failed to set blocking mode on port, error code: "
+//								+Long.toString(result));
+//					} else
+//					if (ErrorMode.LOG.equals(errorMode)) {
+//						this.log().severe(
+//							"Failed to set blocking mode on port, error code: {}",
+//							result
+//						);
+//					}
+//					return false;
+//				}
+//			}
+			// finished opening port
+			if (!this.handle.compareAndSet(Integer.MIN_VALUE, handle)) {
+				if (ErrorMode.EXCEPTION.equals(errorMode)) {
+					throw new IORuntimeException(
+						(new StringBuilder())
+							.append("Port is in an invalid state when setting to open: ")
+							.append(this.handle.get())
+							.append(" ")
+							.append(this.getPortName())
+							.toString()
+					);
+				} else
+				if (ErrorMode.LOG.equals(errorMode)) {
+					this.log().severe(
+						"Port is in an invalid state when setting to open: {} {}",
+						this.handle.get(),
+						this.getPortName()
+					);
+				}
+				return false;
+			}
 		}
-		
-		
-		
-return false;
+		return true;
 	}
 
 
@@ -225,8 +322,22 @@ return false;
 
 	// read bytes
 	public byte[] read() {
+		if (!this.isOpen())
+			return null;
 //TODO:
-return null;
+final int len = 1024;
+		byte[] bytes = new byte[len];
+		final int result =
+			this.nat.readBytes(
+				this.handle.get(),
+				bytes,
+				len
+			);
+		if (result < 0L)
+			return null;
+		if (result == 0L)
+			return new byte[0];
+		return bytes;
 	}
 	// read string
 	public String readString() {
