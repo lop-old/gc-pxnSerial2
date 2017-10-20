@@ -5,6 +5,7 @@ import java.lang.ref.SoftReference;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.poixson.serial.enums.SerialState;
+import com.poixson.serial.natives.DeviceNative;
 import com.poixson.utils.ErrorMode;
 import com.poixson.utils.ReflectUtils;
 import com.poixson.utils.Utils;
@@ -101,7 +102,7 @@ public class pxnSerial implements xCloseable {
 	// load driver and open port
 	@SuppressWarnings("resource")
 	public boolean open() {
-		final ErrorMode errorMode = this.getErrorMode();
+//		final ErrorMode errorMode = this.getErrorMode();
 		// check port state
 		if (this.handle.get() > 0L) {
 //TODO:

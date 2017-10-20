@@ -1,11 +1,9 @@
 package com.poixson.serial.enums;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.poixson.serial.ConfigDAO;
-import com.poixson.serial.DeviceNative;
+import com.poixson.serial.natives.DeviceNative;
 import com.poixson.serial.natives.NativeD2xxOpen;
 import com.poixson.serial.natives.NativeD2xxProp;
 import com.poixson.serial.natives.NativeSerial;

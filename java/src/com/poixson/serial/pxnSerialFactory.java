@@ -6,6 +6,7 @@ import com.poixson.serial.enums.DriverType;
 import com.poixson.serial.enums.Parity;
 import com.poixson.serial.enums.StopBits;
 import com.poixson.serial.exceptions.SerialInvalidParameterException;
+import com.poixson.serial.natives.DeviceNative;
 import com.poixson.serial.natives.NativeSerial;
 import com.poixson.utils.ErrorMode;
 import com.poixson.utils.Utils;

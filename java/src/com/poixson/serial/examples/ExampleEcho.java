@@ -16,6 +16,7 @@ public class ExampleEcho implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println();
 		final String portName = this.getPortName();
 		final Baud   baud     = this.getBaud();
 		final pxnSerial serial =
@@ -35,6 +36,7 @@ public class ExampleEcho implements Runnable {
 		}
 
 		Utils.safeClose(serial);
+		System.out.println();
 	}
 
 

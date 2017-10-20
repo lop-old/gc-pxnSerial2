@@ -7,6 +7,7 @@ import com.poixson.serial.enums.StopBits;
 import com.poixson.utils.Utils;
 import com.poixson.utils.exceptions.RequiredArgumentException;
 
+
 public class ConfigDAO {
 
 	public static final boolean DEFAULT_RTS = false;

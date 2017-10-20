@@ -1,7 +1,5 @@
 package com.poixson.serial.examples;
 
-import com.poixson.utils.ErrorMode;
-import com.poixson.utils.NativeAutoLoader;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
 import com.poixson.utils.xVars;
