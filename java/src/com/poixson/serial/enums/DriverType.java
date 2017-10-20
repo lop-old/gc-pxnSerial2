@@ -43,8 +43,28 @@ public enum DriverType {
 		this.value = value;
 	}
 
+
+
 	public int getValue() {
 		return this.value;
+	}
+	@Override
+	public String toString() {
+		switch (this) {
+		case AUTO:
+			return "auto";
+		case SERIAL:
+			return "serial";
+		case D2XX:
+			return "d2xx";
+		case D2XX_OPEN:
+			return "d2xx-open";
+		case D2XX_PROP:
+			return "d2xx-prop";
+		default:
+			break;
+		}
+		return null;
 	}
 
 
