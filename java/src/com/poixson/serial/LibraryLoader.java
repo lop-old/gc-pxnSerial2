@@ -10,6 +10,8 @@ public class LibraryLoader {
 	private static volatile LibraryLoader instance = null;
 	private static final Object instanceLock = new Object();
 
+	private final NativeAutoLoader loader;
+
 	private boolean useD2xxOpen = false;
 	private boolean useD2xxProp = false;
 
@@ -27,13 +29,13 @@ public class LibraryLoader {
 		return instance;
 	}
 	private LibraryLoader() {
+		this.loader = new NativeAutoLoader();
 	}
 
 
 
 	public boolean Load() {
-		final NativeAutoLoader loader = NativeAutoLoader.get();
-		loader
+		this.loader
 			.setErrorMode(ErrorMode.EXCEPTION)
 			.setClassRef(pxnSerial.class)
 			.addDefaultSearchPaths()
