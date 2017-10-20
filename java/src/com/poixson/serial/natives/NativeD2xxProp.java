@@ -1,7 +1,48 @@
 package com.poixson.serial.natives;
 
+import java.util.concurrent.atomic.AtomicReference;
+
+import com.poixson.utils.ThreadUtils;
+
 
 public class NativeD2xxProp implements NativeD2xx {
+
+	private static final AtomicReference<NativeD2xxProp> instance =
+			new AtomicReference<NativeD2xxProp>(null);
+
+
+
+	public static NativeD2xxProp get() {
+		// existing instance
+		{
+			final NativeD2xxProp nat = instance.get();
+			if (nat != null)
+				return nat;
+		}
+		// new instance
+		{
+			final NativeD2xxProp nat = new NativeD2xxProp();
+			for (int i=0; i<5; i++) {
+				if (instance.compareAndSet(null, nat)) {
+					if (nat.init() != 0L) {
+//TODO:
+throw new RuntimeException("Failed to init serial native!");
+					}
+					return nat;
+				}
+				final NativeD2xxProp n = instance.get();
+				if (n != null)
+					return n;
+				ThreadUtils.Sleep(50L);
+			}
+		}
+		return null;
+	}
+	private NativeD2xxProp() {}
+
+
+
+	// ------------------------------------------------------------------------------- //
 
 
 

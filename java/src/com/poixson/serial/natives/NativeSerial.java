@@ -1,9 +1,49 @@
 package com.poixson.serial.natives;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import com.poixson.serial.DeviceNative;
+import com.poixson.utils.ThreadUtils;
 
 
 public class NativeSerial implements DeviceNative {
+
+	private static final AtomicReference<NativeSerial> instance =
+			new AtomicReference<NativeSerial>(null);
+
+
+
+	public static NativeSerial get() {
+		// existing instance
+		{
+			final NativeSerial nat = instance.get();
+			if (nat != null)
+				return nat;
+		}
+		// new instance
+		{
+			final NativeSerial nat = new NativeSerial();
+			for (int i=0; i<5; i++) {
+				if (instance.compareAndSet(null, nat)) {
+					if (nat.init() != 0L) {
+//TODO:
+throw new RuntimeException("Failed to init serial native!");
+					}
+					return nat;
+				}
+				final NativeSerial n = instance.get();
+				if (n != null)
+					return n;
+				ThreadUtils.Sleep(50L);
+			}
+		}
+		return null;
+	}
+	private NativeSerial() {}
+
+
+
+	// ------------------------------------------------------------------------------- //
 
 
 
