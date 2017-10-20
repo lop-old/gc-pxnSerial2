@@ -142,6 +142,7 @@ Java_com_poixson_serial_natives_NativeD2xxOpen_getDeviceList
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_openPort
 (JNIEnv *env, jobject obj, jstring portName) {
+//TODO:
 return 0;
 }
 
@@ -151,6 +152,7 @@ return 0;
 JNIEXPORT jboolean JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_closePort
 (JNIEnv *env, jobject obj, jlong handle) {
+//TODO:
 return JNI_FALSE;
 }
 
@@ -165,6 +167,7 @@ JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_setParams
 (JNIEnv *env, jobject obj, jlong handle, jint baud,
 jint byteSize, jint stopBits, jint parity, jint flags) {
+//TODO:
 return 0;
 }
 
@@ -175,6 +178,7 @@ return 0;
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_setBlocking
 (JNIEnv *env, jobject obj, jlong handle, jboolean blocking) {
+//TODO:
 return 0;
 }
 
@@ -184,6 +188,7 @@ return 0;
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_setVMinVTime
 (JNIEnv *env, jobject obj, jlong handle, jint vMin, jint vTime) {
+//TODO:
 return 0;
 }
 */
@@ -198,6 +203,7 @@ return 0;
 JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getLineStatus
 (JNIEnv *env, jobject obj, jlong handle) {
+//TODO:
 return NULL;
 }
 
@@ -208,6 +214,7 @@ JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_setLineStatus
 (JNIEnv *env, jobject obj,
 jlong handle, jboolean setRTS, jboolean setDTR) {
+//TODO:
 return 0;
 }
 
@@ -222,6 +229,7 @@ return 0;
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getInputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
+//TODO:
 return 0;
 }
 
@@ -231,6 +239,7 @@ return 0;
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getOutputBytesCount
 (JNIEnv *env, jobject obj, jlong handle) {
+//TODO:
 return 0;
 }
 */
@@ -246,6 +255,7 @@ JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_readBytes
 (JNIEnv *env, jobject obj,
 jlong handle, jbyteArray bytes, jint len) {
+//TODO:
 return 0;
 }
 
@@ -255,5 +265,6 @@ return 0;
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_writeBytes
 (JNIEnv *env, jobject obj, jlong handle, jbyteArray bytes) {
+//TODO:
 return 0;
 }

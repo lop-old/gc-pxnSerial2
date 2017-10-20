@@ -240,6 +240,7 @@ jint byteSize, jint stopBits, jint parity, jint flags) {
 
 
 /*
+//TODO:
 // setBlocking(handle, blocking) - blocking/non-blocking
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeSerial_setBlocking
@@ -273,6 +274,7 @@ Java_com_poixson_serial_natives_NativeSerial_setBlocking
 
 
 
+//TODO:
 // setVMinVTime(handle, vMin, vTime)
 JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeSerial_setVMinVTime
@@ -395,6 +397,7 @@ jlong handle, jboolean setRTS, jboolean setDTR) {
 
 
 /*
+//TODO:
 // getInputBytesCount(handle)
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeSerial_getInputBytesCount
@@ -409,6 +412,7 @@ Java_com_poixson_serial_natives_NativeSerial_getInputBytesCount
 
 
 
+//TODO:
 // getOutputBytesCount(handle)
 JNIEXPORT jint JNICALL
 Java_com_poixson_serial_natives_NativeSerial_getOutputBytesCount
