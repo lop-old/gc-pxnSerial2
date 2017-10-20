@@ -102,32 +102,51 @@ public class pxnSerial implements xCloseable {
 	// load driver and open port
 	@SuppressWarnings("resource")
 	public boolean open() {
-//		final ErrorMode errorMode = this.getErrorMode();
+		final ErrorMode errorMode = this.getErrorMode();
 		// check port state
 		if (this.handle.get() > 0L) {
-//TODO:
-throw new IORuntimeException("Port is already open: "+this.getPortName());
+			if (ErrorMode.EXCEPTION.equals(errorMode)) {
+				throw new IORuntimeException("Port is already open: "+this.getPortName());
+			} else
+			if (ErrorMode.LOG.equals(errorMode)) {
+				this.log().severe("Port is already open: {}", this.getPortName());
+			}
+			return false;
 		}
 		if (!this.handle.compareAndSet(0L, Integer.MIN_VALUE)) {
-//TODO:
-throw new IORuntimeException("Port is in an invalid state: "+this.getPortName());
+			if (ErrorMode.EXCEPTION.equals(errorMode)) {
+				throw new IORuntimeException("Port is in an invalid state: "+this.getPortName());
+			} else
+			if (ErrorMode.LOG.equals(errorMode)) {
+				this.log().severe("Port is in an invalid state: {}", this.getPortName());
+			}
+			return false;
 		}
 		// open the port
 		{
 			final long handle =
 				this.nat.openPort(this.getPortName());
 			if (handle <= 0L) {
-//TODO: how will I handle error messages?
-				throw new IORuntimeException(
-					(new StringBuilder())
-						.append("Failed to open port: ")
-						.append(this.getPortName())
-						.append(" ")
-						.append(handle)
-//						.append("- ")
-//						.append(this.getErrorMsg())
-						.toString()
-				);
+				if (ErrorMode.EXCEPTION.equals(errorMode)) {
+					throw new IORuntimeException(
+						(new StringBuilder())
+							.append("Failed to open port: ")
+							.append(handle)
+							.append(" ")
+							.append(this.getPortName())
+//							.append("- ")
+//							.append(this.getErrorMsg())
+							.toString()
+					);
+				} else
+				if (ErrorMode.LOG.equals(errorMode)) {
+					this.log().severe(
+						"Failed to open port: {} {}",
+						handle,
+						this.getPortName()
+					);
+				}
+				return false;
 			}
 			// set params
 //TODO:
