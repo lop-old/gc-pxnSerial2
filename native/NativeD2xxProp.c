@@ -49,6 +49,14 @@ Java_com_poixson_serial_natives_NativeD2xxProp_unload
 JNIEXPORT void JNICALL
 Java_com_poixson_serial_natives_NativeD2xxProp_rescanDevices
 (JNIEnv *env, jobject obj) {
+	#ifdef WIN32
+		FT_STATUS status = FT_Rescan();
+		if (!FT_SUCCESS(status)) {
+			fprintf(stderr, "Failed to rescan usb devices");
+		}
+	#else
+		// not supported
+	#endif
 }
 
 
