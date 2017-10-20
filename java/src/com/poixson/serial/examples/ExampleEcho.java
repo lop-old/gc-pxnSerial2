@@ -17,6 +17,15 @@ public class ExampleEcho implements Runnable {
 
 
 
+	// port name
+	public String getPortName() {
+		final String portName = this.portName;
+		return (
+			Utils.isEmpty(portName)
+			? "/dev/ttyUSB0"
+			: portName
+		);
+	}
 	public ExampleEcho setPortName(final String portName) {
 		this.portName = (
 			Utils.isEmpty(portName)
@@ -25,8 +34,30 @@ public class ExampleEcho implements Runnable {
 		);
 		return this;
 	}
+
+
+
+	// baud rate
+	public Baud getBaud() {
+		final Baud baud = this.baud;
+		return (
+			baud == null
+			? Baud.DEFAULT_BAUD
+			: baud
+		);
+	}
+	public ExampleEcho setBaud(final int baudValue) {
+		return this.setBaud(
+			Baud.FromInt(baudValue)
+		);
+	}
 	public ExampleEcho setBaud(final String baudStr) {
-		this.baud = Baud.FromString(baudStr);
+		return this.setBaud(
+			Baud.FromString(baudStr)
+		);
+	}
+	public ExampleEcho setBaud(final Baud baud) {
+		this.baud = baud;
 		return this;
 	}
 
