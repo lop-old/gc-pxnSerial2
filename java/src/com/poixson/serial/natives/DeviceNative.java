@@ -1,4 +1,4 @@
-package com.poixson.serial;
+package com.poixson.serial.natives;
 
 
 public interface DeviceNative {

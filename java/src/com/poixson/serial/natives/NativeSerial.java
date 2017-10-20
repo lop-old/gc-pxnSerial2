@@ -2,7 +2,6 @@ package com.poixson.serial.natives;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.poixson.serial.DeviceNative;
 import com.poixson.utils.ThreadUtils;
 
 
