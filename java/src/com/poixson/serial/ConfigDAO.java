@@ -111,7 +111,7 @@ public class ConfigDAO {
 	public DataBits getDataBits() {
 		return this.byteSize;
 	}
-	public int getDataBitsValue() {
+	public int getByteSizeValue() {
 		return this.byteSize.getValue();
 	}
 

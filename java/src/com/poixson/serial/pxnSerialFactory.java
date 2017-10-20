@@ -102,7 +102,7 @@ public class pxnSerialFactory {
 			new ConfigDAO(
 				portName,
 				this.getBaud(),
-				this.getByteSize(),
+				this.getDataBits(),
 				this.getStopBits(),
 				this.getParity(),
 				this.getRTS(),
@@ -194,29 +194,29 @@ public class pxnSerialFactory {
 
 
 	// bit size
-	public DataBits getByteSize() {
+	public DataBits getDataBits() {
 		return this.byteSize;
 	}
 	public int getDataBitsInt() {
-		final DataBits bits = this.getByteSize();
+		final DataBits bits = this.getDataBits();
 		return (
 			bits == null
 			? -1
 			: bits.value
 		);
 	}
-	public pxnSerialFactory setByteSize(final DataBits bits) {
+	public pxnSerialFactory setDataBits(final DataBits bits) {
 		this.byteSize = bits;
 		return this;
 	}
-	public pxnSerialFactory setByteSize(final int value)
+	public pxnSerialFactory setDataBits(final int value)
 			throws SerialInvalidParameterException {
 		if (value == -1) {
-			return this.setByteSize(null);
+			return this.setDataBits(null);
 		}
 		final DataBits bits = DataBits.FromInt(value);
 		if (bits == null) throw new SerialInvalidParameterException("bit size", value);
-		return this.setByteSize(bits);
+		return this.setDataBits(bits);
 	}
 
 
