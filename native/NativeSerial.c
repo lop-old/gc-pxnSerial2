@@ -321,11 +321,11 @@ JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeSerial_getLineStatus
 (JNIEnv *env, jobject obj, jlong handle) {
 	if (handle <= 0) {
-		return handle;
+		return NULL;
 	}
 	int status;
 	ioctl(handle, TIOCMGET, &status);
-	jboolean[] results = new jboolean[4];
+	jboolean* results;
 	// CTS
 	results[0] = (status & TIOCM_CTS ? JNI_TRUE : JNI_FALSE);
 	// DSR
@@ -335,7 +335,7 @@ Java_com_poixson_serial_natives_NativeSerial_getLineStatus
 	// RLSD(DCD)
 	results[3] = (status & TIOCM_CAR ? JNI_TRUE : JNI_FALSE);
 	jbooleanArray resultArray = (*env)->NewBooleanArray(env, 4);
-	(*env)->SetBooleanArrayRegion(resultArray, 0, 4, results);
+	(*env)->SetBooleanArrayRegion(env, resultArray, 0, 4, results);
 	return resultArray;
 }
 
