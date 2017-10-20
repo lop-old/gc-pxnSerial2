@@ -1,5 +1,6 @@
 package com.poixson.serial.examples;
 
+import com.poixson.serial.pxnSerial;
 import com.poixson.utils.StringUtils;
 import com.poixson.utils.Utils;
 import com.poixson.utils.xVars;
@@ -15,6 +16,9 @@ public class Main {
 			PrintHelp();
 			System.exit(1);
 		}
+		System.out.println();
+		// just to load early
+		pxnSerial.LoadLibraries();
 		System.out.println();
 
 		for (int index=0; index<args.length; index++) {
@@ -89,6 +93,7 @@ public class Main {
 			}
 		}
 
+		System.out.println();
 		System.exit(0);
 	}
 
