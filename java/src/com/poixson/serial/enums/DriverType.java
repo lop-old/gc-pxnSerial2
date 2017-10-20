@@ -69,7 +69,7 @@ public enum DriverType {
 
 
 
-	public DeviceNative getNative(final ConfigDAO cfg) throws IOException {
+	public DeviceNative getNative() {
 		switch (this) {
 		case SERIAL:
 			return NativeSerial.get();
