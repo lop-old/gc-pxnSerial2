@@ -12,8 +12,8 @@ public class LibraryLoader {
 
 	private final NativeAutoLoader loader;
 
-	private boolean useD2xxOpen = false;
-	private boolean useD2xxProp = false;
+	private boolean useD2xxOpen = true;
+	private boolean useD2xxProp = true;
 
 
 
@@ -45,21 +45,19 @@ public class LibraryLoader {
 			.enableReplace();
 		// load libftdi.so (open)
 		if (this.useD2xxOpen) {
-			if ( ! loader.Load("libftdi-open-linux64.so") ) {
+			if ( ! this.loader.Load("libftdi-open-linux64.so") ) {
 				throw new RuntimeException("Failed to load libftdi open library!");
 			}
 		}
 		// load libftd2xx.so (prop)
 		if (this.useD2xxProp) {
-			if ( ! loader.Load("libftdi-prop-linux64.so") ) {
+			if ( ! this.loader.Load("libftdi-prop-linux64.so") ) {
 				throw new RuntimeException("Failed to load ftd2xx official library!");
 			}
 		}
 		// load pxnserial.so
-		{
-			if ( ! loader.Load("pxnserial-linux64.so") ) {
-				throw new RuntimeException("Failed to load pxnSerial native library!");
-			}
+		if ( ! this.loader.Load("pxnserial-linux64.so") ) {
+			throw new RuntimeException("Failed to load pxnSerial native library!");
 		}
 		return true;
 	}
