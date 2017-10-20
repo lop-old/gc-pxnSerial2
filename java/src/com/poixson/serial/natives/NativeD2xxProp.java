@@ -72,10 +72,10 @@ throw new RuntimeException("Failed to init serial native!");
 //	public native long setVMinVTime(long handle, int vMin, int vTime);
 
 
-//	@Override
-//	public native long getLineStatus(long handle);
-//	@Override
-//	public native long setLineStatus(long handle, boolean setRTS, boolean setDTR);
+	@Override
+	public native boolean[] getLineStatus(long handle);
+	@Override
+	public native long setLineStatus(long handle, boolean setRTS, boolean setDTR);
 
 
 //	@Override

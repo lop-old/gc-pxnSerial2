@@ -194,7 +194,6 @@ return 0;
 
 
 
-/*
 // getLineStatus(handle)
 JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getLineStatus
@@ -211,7 +210,6 @@ Java_com_poixson_serial_natives_NativeD2xxOpen_setLineStatus
 jlong handle, jboolean setRTS, jboolean setDTR) {
 return 0;
 }
-*/
 
 
 

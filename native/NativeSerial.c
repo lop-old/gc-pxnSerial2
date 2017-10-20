@@ -316,7 +316,6 @@ Java_com_poixson_serial_natives_NativeSerial_setVMinVTime
 
 
 
-/*
 // getLineStatus(handle)
 JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeSerial_getLineStatus
@@ -388,7 +387,6 @@ jlong handle, jboolean setRTS, jboolean setDTR) {
 	tcflush(handle, TCIOFLUSH);
 	return JNI_FALSE;
 }
-*/
 
 
 

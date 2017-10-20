@@ -73,7 +73,6 @@ Java_com_poixson_serial_natives_NativeD2xxOpen_setVMinVTime
 
 /* line status */
 
-/*
 JNIEXPORT jbooleanArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getLineStatus
 (JNIEnv *env, jobject obj, jlong handle);
@@ -82,7 +81,6 @@ JNIEXPORT jlong JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_setLineStatus
 (JNIEnv *env, jobject obj,
 jlong handle, jboolean setRTS, jboolean setDTR);
-*/
 
 
 

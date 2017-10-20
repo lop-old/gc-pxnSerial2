@@ -18,8 +18,8 @@ public interface DeviceNative {
 //	public long setBlocking(long handle, boolean blocking);
 //	public long setVMinVTime(long handle, int vMin, int vTime);
 
-//	public boolean[] getLineStatus(long handle);
-//	public long setLineStatus(long handle, boolean setRTS, boolean setDTR);
+	public boolean[] getLineStatus(long handle);
+	public long setLineStatus(long handle, boolean setRTS, boolean setDTR);
 
 //	public int getInputBytesCount(long handle);
 //	public int getOutputBytesCount(long handle);
