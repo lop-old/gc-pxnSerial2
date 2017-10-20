@@ -57,6 +57,8 @@ throw new RuntimeException("Failed to init serial native!");
 
 
 	@Override
+	public native void rescanDevices();
+	@Override
 	public native byte[] getDeviceList();
 
 

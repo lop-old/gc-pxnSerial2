@@ -8,6 +8,7 @@ public interface DeviceNative {
 	public int init();
 	public int unload();
 
+	public void rescanDevices();
 	public byte[] getDeviceList();
 
 	public long openPort(String portName);

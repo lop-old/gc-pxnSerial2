@@ -30,6 +30,10 @@ Java_com_poixson_serial_natives_NativeD2xxOpen_unload
 
 /* list devices */
 
+JNIEXPORT void JNICALL
+Java_com_poixson_serial_natives_NativeD2xxOpen_rescanDevices
+(JNIEnv *env, jobject obj);
+
 JNIEXPORT jobjectArray JNICALL
 Java_com_poixson_serial_natives_NativeD2xxOpen_getDeviceList
 (JNIEnv *env, jobject obj);
