@@ -2,9 +2,11 @@ package com.poixson.serial;
 
 import com.poixson.serial.enums.Baud;
 import com.poixson.serial.enums.DataBits;
+import com.poixson.serial.enums.DriverType;
 import com.poixson.serial.enums.Parity;
 import com.poixson.serial.enums.StopBits;
 import com.poixson.serial.exceptions.SerialInvalidParameterException;
+import com.poixson.serial.natives.NativeSerial;
 import com.poixson.utils.ErrorMode;
 import com.poixson.utils.Utils;
 
@@ -13,6 +15,8 @@ public class pxnSerialFactory {
 
 //	public static final long DEFAULT_READ_TIMEOUT  = 1000L;
 //	public static final long DEFAULT_READ_INTERVAL = 100L;
+
+	private DriverType driverType = null;
 
 	private String   portName = null;
 	private Baud     baud     = null;
@@ -44,6 +48,9 @@ public class pxnSerialFactory {
 	public static pxnSerialFactory get(final String portName, final Baud baud) {
 		return new pxnSerialFactory(portName, baud);
 	}
+	public static pxnSerialFactory get(final String portName, final Baud baud, final DriverType driverType) {
+		return new pxnSerialFactory(portName, baud, driverType);
+	}
 
 
 
@@ -63,12 +70,19 @@ public class pxnSerialFactory {
 		this.setPortName(portName);
 		this.setBaud(baud);
 	}
+	public pxnSerialFactory(final String portName, final Baud baud, final DriverType driverType) {
+		this();
+		this.setPortName(portName);
+		this.setBaud(baud);
+		this.setDriverType(driverType);
+	}
 
 
 
 	public pxnSerial build() throws SerialInvalidParameterException {
-		final ConfigDAO cfg    = this.getConfig();
-		final pxnSerial serial = new pxnSerial(cfg);
+		final ConfigDAO    cfg = this.getConfig();
+		final DeviceNative nat = this.getNative();
+		final pxnSerial serial = new pxnSerial(cfg, nat);
 		serial.setErrorMode(this.getErrorMode());
 		return serial;
 	}
@@ -91,6 +105,14 @@ public class pxnSerialFactory {
 //				readInterval
 			);
 	}
+	public DeviceNative getNative() {
+		final DriverType driverType = this.getDriverType();
+		return (
+			driverType == null
+			? NativeSerial.get()
+			: driverType.getNative()
+		);
+	}
 
 
 
@@ -100,6 +122,25 @@ public class pxnSerialFactory {
 	}
 	public pxnSerialFactory setErrorMode(final ErrorMode mode) {
 		this.errorMode = mode;
+		return this;
+	}
+
+
+
+	// driver type
+	public String getDriverTypeStr() {
+		final DriverType driverType = this.getDriverType();
+		return (
+			driverType == null
+			? null
+			: driverType.toString()
+		);
+	}
+	public DriverType getDriverType() {
+		return this.driverType;
+	}
+	public pxnSerialFactory setDriverType(final DriverType driverType ) {
+		this.driverType = driverType;
 		return this;
 	}
 
