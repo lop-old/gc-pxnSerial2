@@ -1,6 +1,6 @@
 unfinished
 {
-	"Name": "pxnSerial",
+	"Name": "pxnSerial-java",
 	"ArtifactId": "pxnserial-java",
 	"GroupId": "com.poixson.serial",
 	"Version": "1.0.0",
