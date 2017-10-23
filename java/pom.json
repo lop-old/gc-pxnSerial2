@@ -14,6 +14,12 @@ unfinished
 			"Name": "pxnCommon",
 			"Version": "3.6.1",
 			"Scope": "provided"
+		},
+		"netty": {
+			"GroupId": "io.netty",
+			"ArtifactId": "netty-all",
+			"Version": "4.1.16.Final",
+			"Scope": "compile"
 		}
 	}
 }

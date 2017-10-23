@@ -32,6 +32,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<pxnCommon-version>3.6.1</pxnCommon-version>
+		<netty-version>4.1.16.Final</netty-version>
 
 		<git-commit-id-plugin-version>2.2.2</git-commit-id-plugin-version>
 
@@ -164,6 +165,11 @@
 			<artifactId>common</artifactId>
 			<version>${pxnCommon-version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty-version}</version>
 		</dependency>
 
 	</dependencies>
