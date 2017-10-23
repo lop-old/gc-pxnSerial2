@@ -13,8 +13,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<ftd2xxLinuxVersion>1.4.6</ftd2xxLinuxVersion>
-
 		<native-maven-plugin-version>1.0-alpha-8</native-maven-plugin-version>
 
 	</properties>
@@ -60,7 +58,7 @@
 								</source>
 							</sources>
 						</configuration>
-					</plugin> 
+					</plugin>
 				</plugins>
 			</build>
 		</profile>

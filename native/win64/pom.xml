@@ -13,8 +13,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<ftd2xxLinuxVersion>1.4.6</ftd2xxLinuxVersion>
-
 		<native-maven-plugin-version>1.0-alpha-8</native-maven-plugin-version>
 
 	</properties>
@@ -45,9 +43,9 @@
 								<linkerStartOption>-shared</linkerStartOption>
 								<linkerStartOption>-m64</linkerStartOption>
 								<linkerStartOption>-L ${project.basedir}/../../java/resources/lib/win64/</linkerStartOption>
-								<!-- libftdi-linux64.so -->
+								<!-- libftdi-win64.dll -->
 								<linkerStartOption>-l ftdi-open-win64</linkerStartOption>
-								<!-- libftd2xx.so -->
+								<!-- libftd2xx.dll -->
 								<linkerStartOption>-l ftdi-prop-win64</linkerStartOption>
 							</linkerStartOptions>
 							<sources>
@@ -59,7 +57,7 @@
 								</source>
 							</sources>
 						</configuration>
-					</plugin> 
+					</plugin>
 				</plugins>
 			</build>
 		</profile>

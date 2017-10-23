@@ -32,16 +32,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<pxnCommon-version>3.6.1</pxnCommon-version>
-		<ftd2xxLinuxVersion>1.4.6</ftd2xxLinuxVersion>
-		<ftd2xxWinVersion>2.12.28</ftd2xxWinVersion>
 
 		<git-commit-id-plugin-version>2.2.2</git-commit-id-plugin-version>
+
 		<maven-resources-plugin-version>3.0.2</maven-resources-plugin-version>
 		<maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
 		<maven-jar-plugin-version>2.6</maven-jar-plugin-version>
 		<maven-assembly-plugin-version>2.5.5</maven-assembly-plugin-version>
 		<maven-shade-plugin-version>2.4.1</maven-shade-plugin-version>
+
 		<maven-source-plugin-version>2.4</maven-source-plugin-version>
+
 		<maven-eclipse-plugin-version>2.10</maven-eclipse-plugin-version>
 
 		<junit-version>4.12</junit-version>
@@ -60,14 +61,6 @@
 				<filtering>false</filtering>
 			</resource>
 			<resource>
-				<directory>../native/linux64/target/</directory>
-				<targetPath>lib/linux64/</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.so</include>
-				</includes>
-			</resource>
-			<resource>
 				<directory>../scripts/</directory>
 				<filtering>false</filtering>
 				<includes>
@@ -75,44 +68,6 @@
 					<include>usb-serial-vendor-product.sh</include>
 				</includes>
 			</resource>
-<!--
-			<resource>
-				<directory>../libraries/linux64-${ftd2xxLinuxVersion}/release/build/</directory>
-				<targetPath>lib/linux64/</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.so</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>../libraries/linux32-${ftd2xxLinuxVersion}/release/build/</directory>
-				<targetPath>lib/linux32/</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.so</include>
-				</includes>
-			</resource>
-
-			<resource>
-				<directory>../libraries/win64-${ftd2xxWinVersion}/amd64/</directory>
-				<targetPath>lib/win64/</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.dll</include>
-					<include>*.lib</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>../libraries/win64-${ftd2xxWinVersion}/i386/</directory>
-				<targetPath>lib/win32</targetPath>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.dll</include>
-					<include>*.lib</include>
-				</includes>
-			</resource>
--->
-
 		</resources>
 		<testResources>
 			<testResource>
@@ -120,6 +75,7 @@
 			</testResource>
 		</testResources>
 		<plugins>
+
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
@@ -137,6 +93,7 @@
 					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -233,8 +190,8 @@
 			<version>${pxnCommon-version}</version>
 			<scope>compile</scope>
 		</dependency>
-	</dependencies>
 
+	</dependencies>
 	<reporting>
 		<plugins>
 			<plugin>
