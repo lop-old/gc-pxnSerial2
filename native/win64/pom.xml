@@ -13,6 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<maven-resources-plugin-version>3.0.2</maven-resources-plugin-version>
 		<native-maven-plugin-version>1.0-alpha-8</native-maven-plugin-version>
 
 	</properties>
@@ -57,6 +58,31 @@
 								</source>
 							</sources>
 						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven-resources-plugin-version}</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.basedir}/../../java/resources/lib/win64/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/target/</directory>
+											<filtering>false</filtering>
+											<includes>
+												<include>pxnserial-win64.dll</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
