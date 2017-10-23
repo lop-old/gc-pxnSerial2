@@ -1,0 +1,27 @@
+{
+	"Name": "pxnSerial-Examples",
+	"ArtifactId": "pxnserial-examples",
+	"GroupId": "com.poixson.serial.examples",
+	"Version": "1.0.0",
+	"URL": "http://poixson.com",
+	"Github-Path": "GrowControl/pxnSerial",
+	"Org-Name": "PoiXson",
+	"Main-Class": "com.poixson.serial.examples.Main",
+	"Shade": "yes",
+	"Deps": {
+		"pxnSerial": {
+			"GroupId": "com.poixson.serial",
+			"ArtifactId": "pxnserial-java",
+			"Name": "pxnSerial",
+			"Version": "1.0.0",
+			"Scope": "compile"
+		},
+		"pxnCommon": {
+			"GroupId": "com.poixson",
+			"ArtifactId": "common",
+			"Name": "pxnCommon",
+			"Version": "3.6.1",
+			"Scope": "compile"
+		}
+	}
+}

@@ -32,6 +32,7 @@
 	<modules>
 		<module>native</module>
 		<module>java</module>
+		<module>examples</module>
 	</modules>
 	<build>
 		<defaultGoal>install</defaultGoal>
