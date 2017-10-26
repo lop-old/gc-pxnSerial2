@@ -3,6 +3,7 @@ package com.poixson.serial;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.poixson.serial.enums.SerialState;
 import com.poixson.serial.natives.DeviceNative;
@@ -32,6 +33,10 @@ public class pxnSerial implements xCloseable {
 
 	private final AtomicLong handle = new AtomicLong(0L);
 
+	private final AtomicReference<pxnSerialInputStream> in =
+			new AtomicReference<pxnSerialInputStream>(null);
+	private final AtomicReference<pxnSerialOutputStream> out =
+			new AtomicReference<pxnSerialOutputStream>(null);
 
 
 	public pxnSerial(final ConfigDAO cfg, final DeviceNative nat) {
@@ -311,6 +316,31 @@ public class pxnSerial implements xCloseable {
 		if (handle < 0L)
 			return SerialState.FAILED;
 		return SerialState.CLOSED;
+	}
+
+
+
+	// ------------------------------------------------------------------------------- //
+
+
+
+	public pxnSerialInputStream in() {
+		final pxnSerialInputStream inExisting = this.in.get();
+		if (inExisting != null)
+			return inExisting;
+		final pxnSerialInputStream inNew = new pxnSerialInputStream(this);
+		if (!this.in.compareAndSet(null, inNew))
+			return this.in.get();
+		return inNew;
+	}
+	public pxnSerialOutputStream out() {
+		final pxnSerialOutputStream outExisting = this.out.get();
+		if (outExisting != null)
+			return outExisting;
+		final pxnSerialOutputStream outNew = new pxnSerialOutputStream(this);
+		if (!this.out.compareAndSet(null, outNew))
+			return this.out.get();
+		return outNew;
 	}
 
 
