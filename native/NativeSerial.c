@@ -327,7 +327,7 @@ Java_com_poixson_serial_natives_NativeSerial_getLineStatus
 	}
 	int status;
 	ioctl(handle, TIOCMGET, &status);
-	jboolean* results;
+	jboolean results[4];
 	// CTS
 	results[0] = (status & TIOCM_CTS ? JNI_TRUE : JNI_FALSE);
 	// DSR
