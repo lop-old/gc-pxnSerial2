@@ -29,8 +29,8 @@ public class pxnSerialInputStream extends InputStream {
 		return bytes[0];
 	}
 	@Override
-	public int read(byte b[]) throws IOException {
-		return this.serial.read(b);
+	public int read(byte bytes[]) throws IOException {
+		return this.serial.read(bytes);
 	}
 	@Override
 	public int read(byte[] bytes, final int offset,
