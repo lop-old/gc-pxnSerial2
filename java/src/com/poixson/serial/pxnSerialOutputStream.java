@@ -28,14 +28,14 @@ public class pxnSerialOutputStream extends OutputStream {
 	@Override
 	public void write(final byte[] bytes) throws IOException {
 		final boolean result =
-			this.serial.write(bytes);
+			this.serial.writeBytes(bytes);
 		if (!result) throw new IOException("Failed to write byte");
 	}
 	@Override
 	public void write(final byte[] bytes, final int offset, final int len)
 			throws IOException {
 		final boolean result =
-			this.serial.write(bytes, len);
+			this.serial.writeBytes(bytes, len);
 		if (!result) throw new IOException("Failed to write byte");
 	}
 

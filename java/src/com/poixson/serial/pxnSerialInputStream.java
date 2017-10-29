@@ -21,21 +21,19 @@ public class pxnSerialInputStream extends InputStream {
 
 	@Override
 	public int read() throws IOException {
-		final byte[] bytes = this.serial.read(1);
-		if (bytes == null)
-			return -1;
-		if (bytes.length < 1)
-			return -1;
-		return bytes[0];
+		return this.serial.readByte();
 	}
 	@Override
 	public int read(byte bytes[]) throws IOException {
-		return this.serial.read(bytes);
+		return this.serial.readBytes(bytes, bytes.length);
 	}
 	@Override
 	public int read(byte[] bytes, final int offset,
 			final int len) throws IOException {
-		return this.serial.read(bytes);
+		return this.serial.readBytes(
+			bytes,
+			len
+		);
 	}
 
 
