@@ -35,6 +35,9 @@ public class pxnSerial implements xCloseable {
 
 	private final AtomicLong handle = new AtomicLong(0L);
 
+	private final Object readLock  = new Object();
+	private final Object writeLock = new Object();
+
 	private final AtomicReference<pxnSerialInputStream> in =
 			new AtomicReference<pxnSerialInputStream>(null);
 	private final AtomicReference<pxnSerialOutputStream> out =
@@ -354,22 +357,24 @@ public class pxnSerial implements xCloseable {
 
 	// read bytes
 	public int readBytes(byte[] bytes, final int len) {
-		final long handle = this.handle.get();
-		if (handle <= 0L) {
-			bytes = null;
-			return -1;
+		synchronized (this.readLock) {
+			final long handle = this.handle.get();
+			if (handle <= 0L) {
+				bytes = null;
+				return -1;
+			}
+			final long result =
+				this.nat.readBytes(
+					handle,
+					bytes,
+					len
+				);
+			if (result < 0L) {
+				bytes = null;
+				return -1;
+			}
+			return (int) result;
 		}
-		final long result =
-			this.nat.readBytes(
-				handle,
-				bytes,
-				len
-			);
-		if (result < 0L) {
-			bytes = null;
-			return -1;
-		}
-		return (int) result;
 	}
 	public int readBytes(byte[] bytes) {
 		return this.readBytes(bytes, bytes.length);
@@ -425,17 +430,19 @@ public class pxnSerial implements xCloseable {
 return this.writeBytes(bytes);
 	}
 	public boolean writeBytes(final byte[] bytes) {
-		final long handle = this.handle.get();
-		if (handle <= 0L)
-			return false;
-		final long result =
-			this.nat.writeBytes(
-				handle,
-				bytes
-			);
-		if (result < 0L)
-			return false;
-		return true;
+		synchronized (this.writeLock) {
+			final long handle = this.handle.get();
+			if (handle <= 0L)
+				return false;
+			final long result =
+				this.nat.writeBytes(
+					handle,
+					bytes
+				);
+			if (result < 0L)
+				return false;
+			return true;
+		}
 	}
 	// write single byte
 	public boolean writeByte(final byte b) {
