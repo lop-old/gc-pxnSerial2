@@ -15,6 +15,8 @@ import com.poixson.utils.exceptions.IORuntimeException;
 import com.poixson.utils.exceptions.RequiredArgumentException;
 import com.poixson.utils.xLogger.xLog;
 
+import io.netty.util.CharsetUtil;
+
 
 public class pxnSerial implements xCloseable {
 
@@ -351,41 +353,61 @@ public class pxnSerial implements xCloseable {
 
 
 	// read bytes
-	public byte[] read() {
-		if (!this.isOpen())
-			return null;
-//TODO:
-final int len = 1024;
-		byte[] bytes = new byte[len];
-		final int result =
+	public int readBytes(byte[] bytes, final int len) {
+		final long handle = this.handle.get();
+		if (handle <= 0L) {
+			bytes = null;
+			return -1;
+		}
+		final long result =
 			this.nat.readBytes(
-				this.handle.get(),
+				handle,
 				bytes,
 				len
 			);
+		if (result < 0L) {
+			bytes = null;
+			return -1;
+		}
+		return (int) result;
+	}
+	public int readBytes(byte[] bytes) {
+		return this.readBytes(bytes, bytes.length);
+	}
+	// read single byte
+	public byte readByte() {
+		final byte[] bytes = new byte[1];
+		final long result = this.readBytes(bytes, 1);
+		if (result < 0L)
+			return -1;
+		return bytes[0];
+	}
+
+
+
+	// read string
+	public String readString() {
+		final int len = 1024;
+		byte[] bytes = new byte[len];
+		final long result =
+			this.readBytes(bytes, len);
 		if (result < 0L)
 			return null;
 		if (result == 0L)
-			return new byte[0];
-		return bytes;
-	}
-	// read string
-	public String readString() {
-		final byte[] bytes = this.read();
-		if (bytes == null)
-			return null;
-//TODO: add charset
-		return new String(bytes);
-	}
-	// read line
-	public String readLine() {
-//TODO:
-return null;
+			return "";
+		final String str =
+			new String(
+				bytes,
+				0,
+				(int) result,
+				CharsetUtil.UTF_8
+			);
+		return str;
 	}
 	// read hex
 	public String readHex() {
-//TODO:
-return null;
+		final byte b = this.readByte();
+		return String.format("%02X", b);
 	}
 
 
@@ -396,19 +418,40 @@ return null;
 
 
 	// write bytes
-	public boolean write(final byte[] bytes) {
+	public boolean writeBytes(final byte[] bytes, final int len) {
 //TODO:
-return false;
+		
+		
+return this.writeBytes(bytes);
 	}
+	public boolean writeBytes(final byte[] bytes) {
+		final long handle = this.handle.get();
+		if (handle <= 0L)
+			return false;
+		final long result =
+			this.nat.writeBytes(
+				handle,
+				bytes
+			);
+		if (result < 0L)
+			return false;
+		return true;
+	}
+	// write single byte
+	public boolean writeByte(final byte b) {
+		return this.writeBytes(
+			new byte[] {b}
+		);
+	}
+
+
+
 	// write string
 	public boolean writeString(final String str) {
-//TODO:
-return false;
-	}
-	// write line
-	public boolean writeLine(final String line) {
-//TODO:
-return false;
+		final byte[] bytes = str.getBytes();
+		return this.writeBytes(
+			bytes
+		);
 	}
 
 
