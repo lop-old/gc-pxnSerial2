@@ -44,6 +44,12 @@ public class Main {
 					args,
 					ExampleEcho.class
 				);
+				// netty example
+				RunExample(
+					"netty",
+					args,
+					ExampleNetty.class
+				);
 				break;
 			}
 
@@ -62,6 +68,16 @@ public class Main {
 					"echo",
 					args,
 					ExampleEcho.class
+				);
+				break;
+			}
+
+			// netty example
+			case "netty": {
+				RunExample(
+					"netty",
+					args,
+					ExampleNetty.class
 				);
 				break;
 			}
