@@ -17,7 +17,7 @@ public class Main {
 			System.exit(1);
 		}
 		System.out.println();
-		// just to load early
+		// just to load early, not necessary
 		pxnSerial.LoadLibraries();
 		System.out.println();
 
@@ -33,59 +33,45 @@ public class Main {
 			// all examples
 			case "all": {
 				Utils.SleepDot("Running all tests");
-				// list devices
-				{
-					System.out.println();
-					final ExampleList example = new ExampleList();
-					example.run();
-				}
+				// list devices example
+				RunExample(
+					"list",
+					new ExampleList()
+				);
 				// echo example
-				{
-					System.out.println();
-					final ExampleEcho example = new ExampleEcho();
-					example.run();
-				}
+				RunExample(
+					"echo",
+					args,
+					ExampleEcho.class
+				);
 				break;
 			}
 
 			// list devices example
 			case "list": {
-				Utils.SleepDot("Running list test");
-				final ExampleList example = new ExampleList();
-				example.run();
+				RunExample(
+					"list",
+					new ExampleList()
+				);
 				break;
 			}
 
 			// echo example
 			case "echo": {
-				Utils.SleepDot("Running echo test");
-				final ExampleEcho example = new ExampleEcho();
-				if (args.length > index+1) {
-					final String portName = args[++index];
-					example.setPortName(portName);
-					if (args.length > index+1) {
-						final String baudStr = args[++index];
-						example.setBaud(baudStr);
-						System.out.println(
-							(new StringBuilder())
-								.append("Using port: ")
-								.append(portName)
-								.append(" baud: ")
-								.append(baudStr)
-								.toString()
-						);
-					} else {
-						System.out.println("Using port: "+portName);
-					}
-				}
-				example.run();
+				RunExample(
+					"echo",
+					args,
+					ExampleEcho.class
+				);
 				break;
 			}
 
+			// display help
 			case "help":
 				PrintHelp();
 				System.exit(1);
 
+			// unknown argument
 			default:
 				System.out.println("Unknown argument: "+args[index]);
 				PrintHelp();
@@ -95,6 +81,46 @@ public class Main {
 
 		System.out.println();
 		System.exit(0);
+	}
+
+
+
+	public static void RunExample(final String title, final String[] args,
+			final Class<? extends AbstractExample> exampleClss) {
+		final AbstractExample example;
+		try {
+			example = exampleClss.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			return;
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return;
+		}
+		if (args.length > 1) {
+			example.setPortName(args[1]);
+			if (args.length > 2) {
+				example.setBaud(args[2]);
+			}
+		}
+		RunExample(
+			title,
+			(Runnable) example
+		);
+	}
+	public static void RunExample(final String title,
+			final Runnable example) {
+		System.out.println();
+		Utils.SleepDot(
+			(new StringBuilder())
+				.append(" [ Running ")
+				.append(title)
+				.append(" example.. ] ")
+				.toString()
+		);
+		System.out.println();
+		example.run();
+		System.out.println();
 	}
 
 
