@@ -1,8 +1,6 @@
 lib-temp/
 .git/
 _/
-java/maven-eclipse.xml
-java/.externalToolBuilders/
 
 debug
 DEBUG
@@ -38,6 +36,8 @@ auth.json
 .buildpath
 .gradle/
 .settings/
+maven-eclipse.xml
+.externalToolBuilders/
 
 *.class
 *.iml
